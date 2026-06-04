@@ -39,7 +39,7 @@ int main()
 
         window.clear();
 
-        window.draw(player.GetShape());
+        window.draw(player.GetSprite());
 
         window.display();
     }
