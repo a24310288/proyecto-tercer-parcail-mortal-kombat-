@@ -12,6 +12,7 @@ public:
     void MoveLeft();
     void MoveRight();
     void Jump ();
+    void Update ();
 
     sf::Sprite GetSprite();
 
