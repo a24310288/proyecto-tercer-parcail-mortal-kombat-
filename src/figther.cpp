@@ -1,6 +1,6 @@
 #include "Fighter.hpp"
 
-Fighter::Fighter(float x, float y)
+Fighter::Fighter(float x, float y, const std::string& imagePath)
 {
    speed = 5.0f;
 
@@ -11,7 +11,7 @@ Fighter::Fighter(float x, float y)
 
     groundY = y;
 
-    texture.loadFromFile("assets/chabo mk.png");
+    texture.loadFromFile(imagePath);
 
     sprite.setTexture(texture);
 
@@ -65,4 +65,5 @@ sf::Sprite Fighter::GetSprite()
 {
     return sprite;
 }
+
 

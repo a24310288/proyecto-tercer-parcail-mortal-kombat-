@@ -1,12 +1,13 @@
 #pragma once
 
 #include <SFML/Graphics.hpp>
+#include <string>
 
 class Fighter
 {
 public:
 
-    Fighter(float x, float y);
+    Fighter(float x, float y, const std::string& imagePath);
 
     void MoveLeft();
     void MoveRight();
