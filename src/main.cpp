@@ -30,6 +30,13 @@ int main()
             player.MoveRight();
         }
 
+         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+        {
+            player.Jump();
+        }
+         
+        player.Update();
+
         window.clear();
 
         window.draw(player.GetShape());
