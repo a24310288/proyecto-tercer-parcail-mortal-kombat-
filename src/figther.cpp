@@ -1,8 +1,9 @@
-#include "Fighter.hpp"
+#include "figther.hpp"
+#include <SFML/Graphics.hpp>
 
 Fighter::Fighter(float x, float y, const std::string& imagePath)
 {
-   speed = 5.0f;
+    speed = 5.0f;
 
     velocityY = 0.0f;
     gravity = 0.5f;
@@ -11,28 +12,28 @@ Fighter::Fighter(float x, float y, const std::string& imagePath)
 
     groundY = y;
 
-    texture.loadFromFile(imagePath);
+    texture = std::make_unique<sf::Texture>();
+    sprite = std::make_unique<sf::Sprite>();
 
-    sprite.setTexture(texture);
+    texture->loadFromFile(imagePath);
 
-    sprite.setPosition(x, y);
+    sprite->setTexture(*texture);
 
-    sprite.setScale({0.5f, 0.5f});
+    sprite->setPosition(sf::Vector2f(x, y));
+
+    sprite->setScale(sf::Vector2f(0.5f, 0.5f));
 }
+
+Fighter::~Fighter() = default;
 
 void Fighter::MoveLeft()
 {
-    fighterShape.move(-speed, 0);
-}
-
-void Fighter::MoveLeft()
-{
-    fighterShape.move(-speed, 0);
+    sprite->move(sf::Vector2f(-speed, 0));
 }
 
 void Fighter::MoveRight()
 {
-    fighterShape.move(speed, 0);
+    sprite->move(sf::Vector2f(speed, 0));
 }
 
 void Fighter::Jump()
@@ -48,12 +49,12 @@ void Fighter::Update()
 {
     velocityY += gravity;
 
-    sprite.move({0, velocityY});
+    sprite->move(sf::Vector2f(0, velocityY));
 
-    if (sprite.getPosition().y >= groundY)
+    if (sprite->getPosition().y >= groundY)
     {
-        sprite.setPosition(
-            {sprite.getPosition().x, groundY}
+        sprite->setPosition(
+            sf::Vector2f(sprite->getPosition().x, groundY)
         );
 
         velocityY = 0;
@@ -61,9 +62,9 @@ void Fighter::Update()
     }
 }
 
-sf::Sprite Fighter::GetSprite()
+const sf::Sprite& Fighter::GetSprite() const
 {
-    return sprite;
+    return *sprite;
 }
 
 

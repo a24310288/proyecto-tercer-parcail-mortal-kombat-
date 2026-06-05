@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "Fighter.hpp"
+#include "figther.hpp"
 
 int main()
 {
@@ -71,7 +71,7 @@ int main()
 
     while(window.isOpen())
     {
-        while(const std::optional event = window.pollEvent())
+        while(auto event = window.pollEvent())
         {
             if(event->is<sf::Event::Closed>())
             {

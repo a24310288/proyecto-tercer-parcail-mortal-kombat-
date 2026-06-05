@@ -1,20 +1,23 @@
 #pragma once
 
-#include <SFML/Graphics.hpp>
 #include <string>
+#include <memory>
+
+namespace sf { class Texture; class Sprite; }
 
 class Fighter
 {
 public:
 
     Fighter(float x, float y, const std::string& imagePath);
+    ~Fighter();
 
     void MoveLeft();
     void MoveRight();
     void Jump ();
     void Update ();
 
-    sf::Sprite GetSprite();
+    const sf::Sprite& GetSprite() const;
 
 private:
 
@@ -27,6 +30,6 @@ private:
 
     float groundY;
 
-    sf::Texture texture;
-    sf::Sprite sprite;
+    std::unique_ptr<sf::Texture> texture;
+    std::unique_ptr<sf::Sprite> sprite;
 };
