@@ -4,19 +4,10 @@
     {
       "label": "build (msvc)",
       "type": "shell",
-      "command": "cl",
+      "command": "cmd.exe",
       "args": [
-        "/EHsc",
-        "/I",
-        "C:\\Users\\juans\\OneDrive\\Escritorio\\Mortal Kombat\\SFML3\\include",
-        "src\\main.cpp",
-        "src\\figther.cpp",
-        "/link",
-        "/LIBPATH:C:\\Users\\juans\\OneDrive\\Escritorio\\Mortal Kombat\\SFML3\\lib",
-        "sfml-graphics.lib",
-        "sfml-window.lib",
-        "sfml-system.lib",
-        "/OUT:mortal.exe"
+        "/c",
+        "call \"C:\\Program Files (x86)\\Microsoft Visual Studio\\2022\\Community\\VC\\Auxiliary\\Build\\vcvars64.bat\" && cl /EHsc /I \"C:\\Users\\juans\\OneDrive\\Escritorio\\Mortal Kombat\\SFML3\\include\" src\\main.cpp src\\figther.cpp /link /LIBPATH:\"C:\\Users\\juans\\OneDrive\\Escritorio\\Mortal Kombat\\SFML3\\lib\" sfml-graphics.lib sfml-window.lib sfml-system.lib /OUT:mortal.exe"
       ],
       "options": {
         "cwd": "${workspaceFolder}"

@@ -1,4 +1,4 @@
-#include "figther.hpp"
+#include "fighter.hpp"
 #include <SFML/Graphics.hpp>
 
 Fighter::Fighter(float x, float y, const std::string& imagePath)

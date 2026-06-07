@@ -2,7 +2,7 @@
 #include <iostream>
 #include <string>
 
-#include "figther.hpp"
+#include "fighter.hpp"
 
 int main()
 {
@@ -13,44 +13,44 @@ int main()
     int option2;
 
     std::cout << "\n===== JUGADOR 1 =====\n";
-    std::cout << "1 - Chabo mk\n";
-    std::cout << "2 - omniman mk\n";
-    std::cout << "3 - kratos mk\n";
-    std::cout << "4 - rengoku mk\n";
+    std::cout << "1 - chavo \n";
+    std::cout << "2 - omniman \n";
+    std::cout << "3 - kratos \n";
+    std::cout << "4 - rengoku \n";
 
     std::cin >> option1;
 
     if(option1 == 1)
-        selectedCharacter1 = "assets/chabo mk.png";
+        selectedCharacter1 = "assets/chavo.png";
 
     if(option1 == 2)
-        selectedCharacter1 = "assets/omniman mk.png";
+        selectedCharacter1 = "assets/omniman.png";
 
     if(option1 == 3)
-        selectedCharacter1 = "assets/kratos mk.png";
+        selectedCharacter1 = "assets/kratos.png";
 
     if(option1 == 4)
-        selectedCharacter1 = "assets/rengoku mk.png";
+        selectedCharacter1 = "assets/rengoku.png";
 
     std::cout << "\n===== JUGADOR 2 =====\n";
-    std::cout << "1 - Chabo mk\n";
-    std::cout << "2 - omniman mk\n";
-    std::cout << "3 - Kratos mk\n";
-    std::cout << "4 - rengoku mk\n";
+    std::cout << "1 - chavo \n";
+    std::cout << "2 - omniman \n";
+    std::cout << "3 - kratos \n";
+    std::cout << "4 - rengoku \n";
 
     std::cin >> option2;
 
     if(option2 == 1)
-        selectedCharacter2 = "assets/chabo mk.png";
+        selectedCharacter2 = "assets/chavo.png";
 
     if(option2 == 2)
-        selectedCharacter2 = "assets/omniman mk.png";
+        selectedCharacter2 = "assets/omniman.png";
 
     if(option2 == 3)
-        selectedCharacter2 = "assets/kratos mk.png";
+        selectedCharacter2 = "assets/kratos.png";
 
     if(option2 == 4)
-        selectedCharacter2 = "assets/rengoku mk.png";
+        selectedCharacter2 = "assets/rengoku.png";
 
     Fighter player1(
         200,
@@ -71,9 +71,10 @@ int main()
 
     while(window.isOpen())
     {
-        while(auto event = window.pollEvent())
+        sf::Event event;
+        while(window.pollEvent(event))
         {
-            if(event->is<sf::Event::Closed>())
+            if(event.type == sf::Event::Closed)
             {
                 window.close();
             }
