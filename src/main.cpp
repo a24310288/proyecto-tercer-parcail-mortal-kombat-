@@ -6,10 +6,7 @@
 
 int main()
 {
-    // ==========================
-    // PORTADA INICIAL SFML 3
-    // ==========================
-
+    
     sf::RenderWindow startWindow(
         sf::VideoMode({1280u, 720u}),
         "Mortal Kombat"
