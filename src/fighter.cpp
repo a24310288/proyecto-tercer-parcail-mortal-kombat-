@@ -1,5 +1,6 @@
 #include "fighter.hpp"
 #include <SFML/Graphics.hpp>
+#include <stdexcept>
 
 Fighter::Fighter(float x, float y, const std::string& imagePath)
 {
@@ -13,11 +14,13 @@ Fighter::Fighter(float x, float y, const std::string& imagePath)
     groundY = y;
 
     texture = std::make_unique<sf::Texture>();
-    sprite = std::make_unique<sf::Sprite>();
 
-    texture->loadFromFile(imagePath);
+    if (!texture->loadFromFile(imagePath))
+    {
+        throw std::runtime_error("No se pudo cargar la textura: " + imagePath);
+    }
 
-    sprite->setTexture(*texture);
+    sprite = std::make_unique<sf::Sprite>(*texture);
 
     sprite->setPosition(sf::Vector2f(x, y));
 

@@ -21,16 +21,16 @@ int main()
     std::cin >> option1;
 
     if(option1 == 1)
-        selectedCharacter1 = "assets/chavo.png";
+        selectedCharacter1 = "assets/imagenes/chavo.jpeg";
 
     if(option1 == 2)
-        selectedCharacter1 = "assets/omniman.png";
+        selectedCharacter1 = "assets/imagenes/omniman.jpeg";
 
     if(option1 == 3)
-        selectedCharacter1 = "assets/kratos.png";
+        selectedCharacter1 = "assets/imagenes/kratos.jpeg";
 
     if(option1 == 4)
-        selectedCharacter1 = "assets/rengoku.png";
+        selectedCharacter1 = "assets/imagenes/rengoku.jpeg";
 
     std::cout << "\n===== JUGADOR 2 =====\n";
     std::cout << "1 - chavo \n";
@@ -41,16 +41,16 @@ int main()
     std::cin >> option2;
 
     if(option2 == 1)
-        selectedCharacter2 = "assets/chavo.png";
+        selectedCharacter2 = "assets/imagenes/chavo.jpeg";
 
     if(option2 == 2)
-        selectedCharacter2 = "assets/omniman.png";
+        selectedCharacter2 = "assets/imagenes/omniman.jpeg";
 
     if(option2 == 3)
-        selectedCharacter2 = "assets/kratos.png";
+        selectedCharacter2 = "assets/imagenes/kratos.jpeg";
 
     if(option2 == 4)
-        selectedCharacter2 = "assets/rengoku.png";
+        selectedCharacter2 = "assets/imagenes/rengoku.jpeg";
 
     Fighter player1(
         200,
@@ -65,47 +65,46 @@ int main()
     );
 
     sf::RenderWindow window(
-        sf::VideoMode({1280, 720}),
+        sf::VideoMode({1280u, 720u}),
         "Mortal Kombat"
     );
 
     while(window.isOpen())
     {
-        sf::Event event;
-        while(window.pollEvent(event))
+        while(auto event = window.pollEvent())
         {
-            if(event.type == sf::Event::Closed)
+            if(event->is<sf::Event::Closed>())
             {
                 window.close();
             }
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::A))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
         {
             player1.MoveLeft();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::D))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
         {
             player1.MoveRight();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Space))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Space))
         {
             player1.Jump();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Left))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left))
         {
             player2.MoveLeft();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Right))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
         {
             player2.MoveRight();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RShift))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RShift))
         {
             player2.Jump();
         }
