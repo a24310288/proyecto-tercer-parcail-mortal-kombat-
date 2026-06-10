@@ -13,10 +13,10 @@ int main()
     int option2;
 
     std::cout << "\n===== JUGADOR 1 =====\n";
-    std::cout << "1 - chavo \n";
-    std::cout << "2 - omniman \n";
-    std::cout << "3 - kratos \n";
-    std::cout << "4 - rengoku \n";
+    std::cout << "1 - chavo\n";
+    std::cout << "2 - omniman\n";
+    std::cout << "3 - kratos\n";
+    std::cout << "4 - rengoku\n";
 
     std::cin >> option1;
 
@@ -33,10 +33,10 @@ int main()
         selectedCharacter1 = "assets/imagenes/rengoku.jpeg";
 
     std::cout << "\n===== JUGADOR 2 =====\n";
-    std::cout << "1 - chavo \n";
-    std::cout << "2 - omniman \n";
-    std::cout << "3 - kratos \n";
-    std::cout << "4 - rengoku \n";
+    std::cout << "1 - chavo\n";
+    std::cout << "2 - omniman\n";
+    std::cout << "3 - kratos\n";
+    std::cout << "4 - rengoku\n";
 
     std::cin >> option2;
 
@@ -89,7 +89,7 @@ int main()
             player1.MoveRight();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Space))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
         {
             player1.Jump();
         }
@@ -104,13 +104,57 @@ int main()
             player2.MoveRight();
         }
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RShift))
+        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
         {
             player2.Jump();
         }
 
         player1.Update();
         player2.Update();
+
+        if(player1.GetPosition().x < player2.GetPosition().x)
+        {
+            player1.FaceRight();
+            player2.FaceLeft();
+        }
+        else
+        {
+            player1.FaceLeft();
+            player2.FaceRight();
+        }
+
+        auto p1Bounds = player1.GetBounds();
+        auto p2Bounds = player2.GetBounds();
+
+        if(auto overlap = p1Bounds.findIntersection(p2Bounds))
+        {
+            float correction = overlap->size.x / 2.f;
+
+            if(player1.GetPosition().x < player2.GetPosition().x)
+            {
+                player1.SetPosition(
+                    player1.GetPosition().x - correction,
+                    player1.GetPosition().y
+                );
+
+                player2.SetPosition(
+                    player2.GetPosition().x + correction,
+                    player2.GetPosition().y
+                );
+            }
+            else
+            {
+                player1.SetPosition(
+                    player1.GetPosition().x + correction,
+                    player1.GetPosition().y
+                );
+
+                player2.SetPosition(
+                    player2.GetPosition().x - correction,
+                    player2.GetPosition().y
+                );
+            }
+        }
 
         window.clear();
 

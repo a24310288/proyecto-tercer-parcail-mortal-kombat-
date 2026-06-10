@@ -2,8 +2,7 @@
 
 #include <string>
 #include <memory>
-
-namespace sf { class Texture; class Sprite; }
+#include <SFML/Graphics.hpp>
 
 class Fighter
 {
@@ -14,10 +13,17 @@ public:
 
     void MoveLeft();
     void MoveRight();
-    void Jump ();
-    void Update ();
+    void Jump();
+    void Update();
 
     const sf::Sprite& GetSprite() const;
+
+    void SetPosition(float x, float y);
+    sf::Vector2f GetPosition() const;
+    sf::FloatRect GetBounds() const;
+
+    void FaceRight();
+    void FaceLeft();
 
 private:
 

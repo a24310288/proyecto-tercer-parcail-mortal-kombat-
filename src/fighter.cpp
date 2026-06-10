@@ -1,13 +1,14 @@
 #include "fighter.hpp"
+
 #include <SFML/Graphics.hpp>
 #include <stdexcept>
 
 Fighter::Fighter(float x, float y, const std::string& imagePath)
 {
-    speed = 5.0f;
+    speed = 3.0f;
 
     velocityY = 0.0f;
-    gravity = 0.5f;
+    gravity = 0.3f;
 
     isJumping = false;
 
@@ -43,7 +44,7 @@ void Fighter::Jump()
 {
     if (!isJumping)
     {
-        velocityY = -12.0f;
+        velocityY = -18.0f;
         isJumping = true;
     }
 }
@@ -57,7 +58,10 @@ void Fighter::Update()
     if (sprite->getPosition().y >= groundY)
     {
         sprite->setPosition(
-            sf::Vector2f(sprite->getPosition().x, groundY)
+            sf::Vector2f(
+                sprite->getPosition().x,
+                groundY
+            )
         );
 
         velocityY = 0;
@@ -68,6 +72,39 @@ void Fighter::Update()
 const sf::Sprite& Fighter::GetSprite() const
 {
     return *sprite;
+}
+
+void Fighter::SetPosition(float x, float y)
+{
+    sprite->setPosition(sf::Vector2f(x, y));
+}
+
+sf::Vector2f Fighter::GetPosition() const
+{
+    return sprite->getPosition();
+}
+
+sf::FloatRect Fighter::GetBounds() const
+{
+    return sprite->getGlobalBounds();
+}
+
+void Fighter::FaceRight()
+{
+    sprite->setOrigin(sf::Vector2f(0.f, 0.f));
+    sprite->setScale(sf::Vector2f(0.5f, 0.5f));
+}
+
+void Fighter::FaceLeft()
+{
+    sprite->setOrigin(
+        sf::Vector2f(
+            static_cast<float>(texture->getSize().x),
+            0.f
+        )
+    );
+
+    sprite->setScale(sf::Vector2f(-0.5f, 0.5f));
 }
 
 
