@@ -20,7 +20,13 @@ int main()
     }
 
     sf::Sprite portadaSprite(portadaTexture);
-
+ 
+    portadaSprite.setScale(
+    {
+        1280.f / portadaTexture.getSize().x,
+        720.f / portadaTexture.getSize().y
+    }
+);
     bool startScreen = true;
 
     while(startWindow.isOpen() && startScreen)
