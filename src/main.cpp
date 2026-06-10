@@ -6,6 +6,49 @@
 
 int main()
 {
+    // ==========================
+    // PORTADA INICIAL SFML 3
+    // ==========================
+
+    sf::RenderWindow startWindow(
+        sf::VideoMode({1280u, 720u}),
+        "Mortal Kombat"
+    );
+
+    sf::Texture portadaTexture;
+
+    if(!portadaTexture.loadFromFile("assets/imagenes/portada.png"))
+    {
+        return -1;
+    }
+
+    sf::Sprite portadaSprite(portadaTexture);
+
+    bool startScreen = true;
+
+    while(startWindow.isOpen() && startScreen)
+    {
+        while(auto event = startWindow.pollEvent())
+        {
+            if(event->is<sf::Event::Closed>())
+            {
+                startWindow.close();
+                return 0;
+            }
+
+            if(event->is<sf::Event::KeyPressed>())
+            {
+                startScreen = false;
+            }
+        }
+
+        startWindow.clear();
+
+        startWindow.draw(portadaSprite);
+
+        startWindow.display();
+    }
+
     std::string selectedCharacter1;
     std::string selectedCharacter2;
 
