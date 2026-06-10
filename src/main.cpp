@@ -6,7 +6,7 @@
 
 int main()
 {
-    
+    std::cout << "VERSION NUEVA\n";
     sf::RenderWindow startWindow(
         sf::VideoMode({1280u, 720u}),
         "Mortal Kombat"
@@ -206,3 +206,4 @@ int main()
 
     return 0;
 }
+
