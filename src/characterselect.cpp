@@ -2,6 +2,7 @@
 
 CharacterSelect::CharacterSelect()
 {
+    
     p1Index = 0;
     p2Index = 3;
 
