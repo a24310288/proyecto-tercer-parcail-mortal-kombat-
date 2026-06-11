@@ -17,11 +17,13 @@ CharacterSelect::CharacterSelect()
         "assets/imagenes/rengoku.jpeg"
     };
 
+    sprites.clear();
+    sprites.reserve(4);
+
     for(int i = 0; i < 4; i++)
     {
         textures[i].loadFromFile(paths[i]);
-        sprites[i].setTexture(textures[i]);
-
+        sprites.emplace_back(textures[i]);
         sprites[i].setScale({0.25f, 0.25f});
     }
 

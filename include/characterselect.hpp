@@ -2,6 +2,7 @@
 
 #include <SFML/Graphics.hpp>
 #include <string>
+#include <vector>
 
 class CharacterSelect
 {
@@ -26,7 +27,7 @@ private:
 
     // ✅ CORRECTO PARA TU SFML
     sf::Texture textures[4];
-    sf::Sprite sprites[4];
+    std::vector<sf::Sprite> sprites;
 
     sf::RectangleShape cursorP1;
     sf::RectangleShape cursorP2;
