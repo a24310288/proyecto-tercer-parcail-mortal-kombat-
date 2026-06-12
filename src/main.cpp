@@ -1,12 +1,17 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <string>
+#include <cstdlib>
+#include <ctime>
 
 #include "fighter.hpp"
 #include "characterselect.hpp"
+#include "MapManager.hpp"
 
 int main()
 {
+    std::srand(std::time(nullptr)); //  RANDOM SOLO UNA VEZ
+
     sf::RenderWindow window(
         sf::VideoMode({1280u, 720u}),
         "Mortal Kombat"
@@ -47,16 +52,22 @@ int main()
     CharacterSelect select;
     select.Run(window);
 
+    // 🔥 MAPA ALEATORIO PARA LA PELEA
+    std::string mapPath = MapManager::getRandomMap();
+    std::cout << "Mapa seleccionado: " << mapPath << std::endl;
+
     Fighter player1(
         200,
         500,
         select.GetPlayer1()
+        // ⚠️ si aún no modificas Fighter, NO agregamos mapPath aquí
     );
 
     Fighter player2(
         900,
         500,
         select.GetPlayer2()
+        // ⚠️ mismo caso
     );
 
     while(window.isOpen())
@@ -121,6 +132,8 @@ int main()
         }
 
         window.clear();
+
+        // ⚠️ Aquí todavía NO dibujamos el mapa porque Fighter no lo usa aún
 
         window.draw(player1.GetSprite());
         window.draw(player2.GetSprite());
