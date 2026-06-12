@@ -41,12 +41,6 @@ CharacterSelect::CharacterSelect()
 
 void CharacterSelect::LoadCharacters()
 {
-    sprites.clear();
-    textures.clear();
-
-    textures.resize(CHARACTER_COUNT);
-    sprites.resize(CHARACTER_COUNT);
-
     for(int i = 0; i < CHARACTER_COUNT; i++)
     {
         if(!textures[i].loadFromFile(selectPaths[i]))
@@ -58,9 +52,6 @@ void CharacterSelect::LoadCharacters()
         sprites[i].setTexture(textures[i]);
 
         auto size = textures[i].getSize();
-
-        if(size.x == 0 || size.y == 0)
-            continue;
 
         float scaleX = 200.f / static_cast<float>(size.x);
         float scaleY = 200.f / static_cast<float>(size.y);
