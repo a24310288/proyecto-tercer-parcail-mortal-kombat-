@@ -22,9 +22,7 @@ CharacterSelect::CharacterSelect()
 
     for(int i = 0; i < 4; i++)
 {
-    textures[i].loadFromFile(paths[i]);
-    sprites.emplace_back(textures[i]);
-    sprites[i].setScale({0.25f, 0.25f});
+    sprites[i].setPosition(positions[i]);
 }
 
     positions[0] = {250, 150};
