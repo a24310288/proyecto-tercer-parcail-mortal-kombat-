@@ -44,3 +44,4 @@ private:
     void ConfirmP2();
     void Draw(sf::RenderWindow& window);
 };
+

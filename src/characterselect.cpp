@@ -76,23 +76,23 @@ void CharacterSelect::MoveP1(sf::Keyboard::Scancode key)
         case sf::Keyboard::Scancode::A:
             if(p1Index==1) p1Index=0;
             if(p1Index==3) p1Index=2;
-        break;
+            break;
 
         case sf::Keyboard::Scancode::D:
             if(p1Index==0) p1Index=1;
             if(p1Index==2) p1Index=3;
-        break;
+            break;
 
         case sf::Keyboard::Scancode::W:
             if(p1Index>=2) p1Index-=2;
-        break;
+            break;
 
         case sf::Keyboard::Scancode::S:
             if(p1Index<=1) p1Index+=2;
-        break;
+            break;
 
         default:
-        break;
+            break;
     }
 
     UpdateCursorPositions();
@@ -107,23 +107,23 @@ void CharacterSelect::MoveP2(sf::Keyboard::Scancode key)
         case sf::Keyboard::Scancode::Left:
             if(p2Index==1) p2Index=0;
             if(p2Index==3) p2Index=2;
-        break;
+            break;
 
         case sf::Keyboard::Scancode::Right:
             if(p2Index==0) p2Index=1;
             if(p2Index==2) p2Index=3;
-        break;
+            break;
 
         case sf::Keyboard::Scancode::Up:
             if(p2Index>=2) p2Index-=2;
-        break;
+            break;
 
         case sf::Keyboard::Scancode::Down:
             if(p2Index<=1) p2Index+=2;
-        break;
+            break;
 
         default:
-        break;
+            break;
     }
 
     UpdateCursorPositions();
@@ -150,9 +150,7 @@ void CharacterSelect::ConfirmP2()
 void CharacterSelect::Draw(sf::RenderWindow& window)
 {
     for(int i = 0; i < CHARACTER_COUNT; i++)
-    {
         window.draw(sprites[i]);
-    }
 
     window.draw(cursorP1);
     window.draw(cursorP2);
@@ -201,6 +199,5 @@ std::string CharacterSelect::GetPlayer2() const
 {
     return p2Result;
 }
-
 
 
