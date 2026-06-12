@@ -11,10 +11,10 @@ CharacterSelect::CharacterSelect()
 
     std::string paths[4] =
     {
-        "assets/imagenes/chavo.jpeg",
-        "assets/imagenes/omniman.jpeg",
-        "assets/imagenes/kratos.jpeg",
-        "assets/imagenes/rengoku.jpeg"
+        "assets/imagenes/selec chavo.jpeg",
+        "assets/imagenes/selec omniman.jpeg",
+        "assets/imagenes/selec kratos.jpeg",
+        "assets/imagenes/selec rengoku.jpeg"
     };
 
     sprites.clear();
@@ -80,10 +80,10 @@ void CharacterSelect::ConfirmP1()
 
     std::string paths[4] =
     {
-        "assets/imagenes/chavo.jpeg",
-        "assets/imagenes/omniman.jpeg",
-        "assets/imagenes/kratos.jpeg",
-        "assets/imagenes/rengoku.jpeg"
+        "assets/imagenes/selec chavo.jpeg",
+        "assets/imagenes/selec omniman.jpeg",
+        "assets/imagenes/selec kratos.jpeg",
+        "assets/imagenes/selec rengoku.jpeg"
     };
 
     p1Result = paths[p1Index];
@@ -95,10 +95,10 @@ void CharacterSelect::ConfirmP2()
 
     std::string paths[4] =
     {
-        "assets/imagenes/chavo.jpeg",
-        "assets/imagenes/omniman.jpeg",
-        "assets/imagenes/kratos.jpeg",
-        "assets/imagenes/rengoku.jpeg"
+        "assets/imagenes/selec chavo.jpeg",
+        "assets/imagenes/selec omniman.jpeg",
+        "assets/imagenes/selec kratos.jpeg",
+        "assets/imagenes/selec rengoku.jpeg"
     };
 
     p2Result = paths[p2Index];
