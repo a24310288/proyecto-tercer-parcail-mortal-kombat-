@@ -21,11 +21,11 @@ CharacterSelect::CharacterSelect()
     sprites.reserve(4);
 
     for(int i = 0; i < 4; i++)
-    {
-        textures[i].loadFromFile(paths[i]);
-        sprites.emplace_back(textures[i]);
-        sprites[i].setScale({0.25f, 0.25f});
-    }
+{
+    textures[i].loadFromFile(paths[i]);
+    sprites.emplace_back(textures[i]);
+    sprites[i].setScale({0.25f, 0.25f});
+}
 
     positions[0] = {250, 150};
     positions[1] = {750, 150};
