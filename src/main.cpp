@@ -7,17 +7,11 @@
 
 int main()
 {
-    // =========================
-    // VENTANA PRINCIPAL
-    // =========================
     sf::RenderWindow window(
         sf::VideoMode({1280u, 720u}),
         "Mortal Kombat"
     );
 
-    // =========================
-    // PORTADA (si ya la tienes, la puedes dejar o eliminar)
-    // =========================
     sf::Texture portadaTexture;
 
     if(!portadaTexture.loadFromFile("assets/imagenes/portada.png"))
@@ -50,15 +44,9 @@ int main()
         window.display();
     }
 
-    // =========================
-    // SELECCIÓN GRÁFICA (AQUÍ SE ELIMINA CIN / COUT)
-    // =========================
     CharacterSelect select;
     select.Run(window);
 
-    // =========================
-    // CREACIÓN DE PERSONAJES
-    // =========================
     Fighter player1(
         200,
         500,
@@ -71,9 +59,6 @@ int main()
         select.GetPlayer2()
     );
 
-    // =========================
-    // JUEGO PRINCIPAL
-    // =========================
     while(window.isOpen())
     {
         while(auto event = window.pollEvent())
@@ -105,7 +90,6 @@ int main()
         player1.Update();
         player2.Update();
 
-        // ORIENTACIÓN
         if(player1.GetPosition().x < player2.GetPosition().x)
         {
             player1.FaceRight();
@@ -117,7 +101,6 @@ int main()
             player2.FaceRight();
         }
 
-        // COLISIÓN
         auto p1Bounds = player1.GetBounds();
         auto p2Bounds = player2.GetBounds();
 
