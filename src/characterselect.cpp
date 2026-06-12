@@ -11,16 +11,16 @@ CharacterSelect::CharacterSelect()
     p2Ready = false;
 
     // Imágenes que aparecen en la selección
-    selectPaths[0] = "assets/imagenes/selec chavo.jpeg";
-    selectPaths[1] = "assets/imagenes/selec omniman.jpeg";
-    selectPaths[2] = "assets/imagenes/selec kratos.jpeg";
-    selectPaths[3] = "assets/imagenes/selec rengoku.jpeg";
+    selectPaths[0] = "assets/imagenes/selec chavo.png";
+    selectPaths[1] = "assets/imagenes/selec omniman.png";
+    selectPaths[2] = "assets/imagenes/selec kratos.png";
+    selectPaths[3] = "assets/imagenes/selec rengoku.png";
 
     // Imágenes que usa Fighter
-    fighterPaths[0] = "assets/imagenes/chavo.jpeg";
-    fighterPaths[1] = "assets/imagenes/omniman.jpeg";
-    fighterPaths[2] = "assets/imagenes/kratos.jpeg";
-    fighterPaths[3] = "assets/imagenes/rengoku.jpeg";
+    fighterPaths[0] = "assets/imagenes/chavo.png";
+    fighterPaths[1] = "assets/imagenes/omniman.png";
+    fighterPaths[2] = "assets/imagenes/kratos.png";
+    fighterPaths[3] = "assets/imagenes/rengoku.png";
 
     positions[0] = {180.f,120.f};
     positions[1] = {700.f,120.f};
