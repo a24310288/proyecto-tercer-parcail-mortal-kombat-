@@ -25,7 +25,6 @@ private:
     std::string p1Result;
     std::string p2Result;
 
-    // ✅ CORRECTO PARA TU SFML
     sf::Texture textures[4];
     std::vector<sf::Sprite> sprites;
 
