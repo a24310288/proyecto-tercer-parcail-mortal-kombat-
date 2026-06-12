@@ -1,5 +1,4 @@
 #include "characterselect.hpp"
-
 #include <iostream>
 
 CharacterSelect::CharacterSelect()
@@ -45,28 +44,29 @@ void CharacterSelect::LoadCharacters()
     sprites.clear();
     textures.clear();
 
+    textures.resize(CHARACTER_COUNT);
+    sprites.resize(CHARACTER_COUNT);
+
     for(int i = 0; i < CHARACTER_COUNT; i++)
     {
-        sf::Texture tex;
-
-        if(!tex.loadFromFile(selectPaths[i]))
+        if(!textures[i].loadFromFile(selectPaths[i]))
         {
             std::cout << "No se pudo cargar: " << selectPaths[i] << std::endl;
+            continue;
         }
 
-        textures.push_back(tex);
+        sprites[i].setTexture(textures[i]);
 
-        sf::Sprite sprite(textures.back());
+        auto size = textures[i].getSize();
 
-        auto size = textures.back().getSize();
+        if(size.x == 0 || size.y == 0)
+            continue;
 
-        float scaleX = 200.f / size.x;
-        float scaleY = 200.f / size.y;
+        float scaleX = 200.f / static_cast<float>(size.x);
+        float scaleY = 200.f / static_cast<float>(size.y);
 
-        sprite.setScale({scaleX, scaleY});
-        sprite.setPosition(positions[i]);
-
-        sprites.push_back(sprite);
+        sprites[i].setScale({scaleX, scaleY});
+        sprites[i].setPosition(positions[i]);
     }
 }
 
@@ -78,8 +78,7 @@ void CharacterSelect::UpdateCursorPositions()
 
 void CharacterSelect::MoveP1(sf::Keyboard::Scancode key)
 {
-    if(p1Ready)
-        return;
+    if(p1Ready) return;
 
     switch(key)
     {
@@ -110,8 +109,7 @@ void CharacterSelect::MoveP1(sf::Keyboard::Scancode key)
 
 void CharacterSelect::MoveP2(sf::Keyboard::Scancode key)
 {
-    if(p2Ready)
-        return;
+    if(p2Ready) return;
 
     switch(key)
     {
@@ -195,9 +193,7 @@ void CharacterSelect::Run(sf::RenderWindow& window)
         }
 
         window.clear(sf::Color(25,25,25));
-
         Draw(window);
-
         window.display();
 
         if(p1Ready && p2Ready)
@@ -214,5 +210,6 @@ std::string CharacterSelect::GetPlayer2() const
 {
     return p2Result;
 }
+
 
 
