@@ -66,10 +66,14 @@ int main()
         select.GetPlayer2()
     );
 
-    int vida1 = 100;
-    int vida2 = 100;
-
     sf::Font font;
+
+    sf::Text textoVida1(font);
+    sf::Text textoVida2(font);
+    sf::Text textoTiempo(font);
+
+    textoVida1.setString("P1: " + std::to_string(player1.GetHealth()));
+    textoVida2.setString("P2: " + std::to_string(player2.GetHealth()));
 
     if(!font.openFromFile("assets/fonts/ARIAL.TTF"))
     {
@@ -77,9 +81,7 @@ int main()
         return -1;
     }
 
-    sf::Text textoVida1(font);
-    sf::Text textoVida2(font);
-    sf::Text textoTiempo(font);
+   
 
     textoVida1.setCharacterSize(30);
     textoVida2.setCharacterSize(30);
@@ -220,11 +222,11 @@ if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
         if(tiempo < 0)
             tiempo = 0;
 
-        if(tiempo == 0 || vida1 <= 0 || vida2 <= 0)
+        if(tiempo == 0 || player1.GetHealth() <= 0 || player2.GetHealth() <= 0)
             peleaTerminada = true;
 
-        textoVida1.setString("P1: " + std::to_string(vida1));
-        textoVida2.setString("P2: " + std::to_string(vida2));
+        textoVida1.setString("P1: " + std::to_string(player1.GetHealth()));
+        textoVida2.setString("P2: " + std::to_string(player2.GetHealth()));
         textoTiempo.setString(std::to_string(tiempo));
 
         window.clear();
