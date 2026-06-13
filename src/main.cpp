@@ -150,10 +150,12 @@ int main()
             // F
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
 {
+    std::cout << "F PRESIONADA\n";
+
     if(tocando)
     {
+        std::cout << "TOCANDO OK\n";
         vida2 -= 10;
-        std::cout << "P1 HIT -> vida2: " << vida2 << "\n";
     }
 }
 else
@@ -164,8 +166,11 @@ else
             // RIGHT CTRL
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
 {
+    std::cout << "RCTRL PRESIONADO\n";
+
     if(tocando)
     {
+        std::cout << "TOCANDO OK (P2)\n";
         vida1 -= 10;
         std::cout << "P2 HIT -> vida1: " << vida1 << "\n";
     }
