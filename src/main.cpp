@@ -153,7 +153,7 @@ int main()
     if(tocando)
     {
         vida2 -= 10;
-        std::cout << "P1 HITS P2 -> vida2: " << vida2 << "\n";
+        std::cout << "P1 HIT -> vida2: " << vida2 << "\n";
     }
 }
 else
@@ -164,11 +164,10 @@ else
             // RIGHT CTRL
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
 {
-    
     if(tocando)
     {
         vida1 -= 10;
-        std::cout << "P2 HITS P1 -> vida1: " << vida1 << "\n";
+        std::cout << "P2 HIT -> vida1: " << vida1 << "\n";
     }
 }
 
