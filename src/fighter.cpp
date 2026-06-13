@@ -14,13 +14,9 @@ Fighter::Fighter(float x, float y, const std::string& imagePath)
 
     groundY = y;
 
-    // ==========================
-    // NUEVO
-    // ==========================
     health = 100;
     attacking = false;
-    // ==========================
-
+  
     texture = std::make_unique<sf::Texture>();
 
     if (!texture->loadFromFile(imagePath))
@@ -114,9 +110,6 @@ void Fighter::FaceLeft()
     sprite->setScale(sf::Vector2f(-0.5f, 0.5f));
 }
 
-// =====================================
-// NUEVAS FUNCIONES
-// =====================================
 
 int Fighter::GetHealth() const
 {
