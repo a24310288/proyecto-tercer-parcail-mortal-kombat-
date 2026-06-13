@@ -133,45 +133,53 @@ int main()
             auto p1Bounds = player1.GetBounds();
             auto p2Bounds = player2.GetBounds();
 
-            float distancia = std::abs(player1.GetPosition().x - player2.GetPosition().x);
-bool tocando = distancia <= 120.f;
+            auto centro1 = player1.GetBounds();
+auto centro2 = player2.GetBounds();
+
+float distancia =
+    std::abs(
+        (centro1.position.x + centro1.size.x / 2.f) -
+        (centro2.position.x + centro2.size.x / 2.f)
+    );
+
+bool tocando = distancia <= 180.f;
 
 
             // F
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
-            {
-                if(!golpeP1 && tocando)
-                {
-                    vida2 -= (7 + rand()%2);
+{
+    if(!golpeP1 && tocando)
+    {
+        vida2 -= 7 + rand() % 2;
 
-                    if(vida2 < 0)
-                        vida2 = 0;
-                }
+        if(vida2 < 0)
+            vida2 = 0;
+    }
 
-                golpeP1 = true;
-            }
-            else
-            {
-                golpeP1 = false;
-            }
+    golpeP1 = true;
+}
+else
+{
+    golpeP1 = false;
+}
 
             // RIGHT CTRL
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
-            {
-                if(!golpeP2 && tocando)
-                {
-                    vida1 -= (7 + rand()%2);
+{
+    if(!golpeP2 && tocando)
+    {
+        vida1 -= 7 + rand() % 2;
 
-                    if(vida1 < 0)
-                        vida1 = 0;
-                }
+        if(vida1 < 0)
+            vida1 = 0;
+    }
 
-                golpeP2 = true;
-            }
-            else
-            {
-                golpeP2 = false;
-            }
+    golpeP2 = true;
+}
+else
+{
+    golpeP2 = false;
+}
         }
 
         player1.Update();
