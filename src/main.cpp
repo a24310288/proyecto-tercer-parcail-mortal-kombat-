@@ -105,6 +105,17 @@ int main()
         {
             if(event->is<sf::Event::Closed>())
                 window.close();
+                
+                if (const auto* key = event->getIf<sf::Event::KeyPressed>())
+{
+    std::cout << "Tecla presionada\n";
+
+    if (key->scancode == sf::Keyboard::Scancode::F)
+        std::cout << "F detectada\n";
+
+    if (key->scancode == sf::Keyboard::Scancode::RControl)
+        std::cout << "Right Ctrl detectada\n";
+}
         }
 
         if(!peleaTerminada)
