@@ -21,10 +21,10 @@ void MapManager::setupSprite()
 void MapManager::loadRandomMap()
 {
     static std::vector<std::string> maps = {
-        "assets/mapas/ecenario rengoku.png",
-        "assets/mapas/esenario chavo.png",
-        "assets/mapas/esenario kratos.png",
-        "assets/mapas/esenario viltrum.png"
+        "assets/imagenes/ecenario rengoku.png",
+        "assets/imagenes/esenario chavo.png",
+        "assets/imagenes/esenario kratos.png",
+        "assets/imagenes/esenario viltrum.png"
     };
 
     int index = std::rand() % maps.size();
