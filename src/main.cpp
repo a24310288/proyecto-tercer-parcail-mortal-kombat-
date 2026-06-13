@@ -10,7 +10,7 @@
 
 int main()
 {
-    std::srand(std::time(nullptr)); // RANDOM SOLO UNA VEZ
+    std::srand(std::time(nullptr));
 
     sf::RenderWindow window(
         sf::VideoMode({1280u, 720u}),
@@ -25,11 +25,10 @@ int main()
     sf::Sprite portadaSprite(portadaTexture);
 
     portadaSprite.setScale(
-        {
-            1280.f / portadaTexture.getSize().x,
-            720.f / portadaTexture.getSize().y
-        }
-    );
+    {
+        1280.f / portadaTexture.getSize().x,
+        720.f / portadaTexture.getSize().y
+    });
 
     bool startScreen = true;
 
@@ -52,10 +51,9 @@ int main()
     CharacterSelect select;
     select.Run(window);
 
-    // 🔥 MAPA ALEATORIO
     MapManager mapManager;
     mapManager.loadRandomMap();
-    
+
     Fighter player1(
         200,
         500,
@@ -68,6 +66,39 @@ int main()
         select.GetPlayer2()
     );
 
+    int vida1 = 100;
+    int vida2 = 100;
+
+    sf::Font font;
+
+    if(!font.openFromFile("assets/fonts/ARIAL.TTF"))
+    {
+        std::cout << "No se pudo cargar la fuente.\n";
+        return -1;
+    }
+
+    sf::Text textoVida1(font);
+    sf::Text textoVida2(font);
+    sf::Text textoTiempo(font);
+
+    textoVida1.setCharacterSize(30);
+    textoVida2.setCharacterSize(30);
+    textoTiempo.setCharacterSize(35);
+
+    textoVida1.setFillColor(sf::Color::White);
+    textoVida2.setFillColor(sf::Color::White);
+    textoTiempo.setFillColor(sf::Color::Yellow);
+
+    textoVida1.setPosition({20.f,20.f});
+    textoVida2.setPosition({1000.f,20.f});
+    textoTiempo.setPosition({610.f,20.f});
+
+    sf::Clock reloj;
+    bool peleaTerminada = false;
+
+    bool golpeP1 = false;
+    bool golpeP2 = false;
+
     while(window.isOpen())
     {
         while(auto event = window.pollEvent())
@@ -76,25 +107,70 @@ int main()
                 window.close();
         }
 
-        // PLAYER 1
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
-            player1.MoveLeft();
+        if(!peleaTerminada)
+        {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
+                player1.MoveLeft();
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
-            player1.MoveRight();
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
+                player1.MoveRight();
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
-            player1.Jump();
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
+                player1.Jump();
 
-        // PLAYER 2
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left))
-            player2.MoveLeft();
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left))
+                player2.MoveLeft();
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
-            player2.MoveRight();
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
+                player2.MoveRight();
 
-        if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
-            player2.Jump();
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
+                player2.Jump();
+        }
+
+        if(!peleaTerminada)
+        {
+            auto p1Bounds = player1.GetBounds();
+            auto p2Bounds = player2.GetBounds();
+
+            bool tocando = p1Bounds.findIntersection(p2Bounds).has_value();
+
+            // F
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
+            {
+                if(!golpeP1 && tocando)
+                {
+                    vida2 -= (7 + rand()%2);
+
+                    if(vida2 < 0)
+                        vida2 = 0;
+                }
+
+                golpeP1 = true;
+            }
+            else
+            {
+                golpeP1 = false;
+            }
+
+            // RIGHT CTRL
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
+            {
+                if(!golpeP2 && tocando)
+                {
+                    vida1 -= (7 + rand()%2);
+
+                    if(vida1 < 0)
+                        vida1 = 0;
+                }
+
+                golpeP2 = true;
+            }
+            else
+            {
+                golpeP2 = false;
+            }
+        }
 
         player1.Update();
         player2.Update();
@@ -119,27 +195,50 @@ int main()
 
             if(player1.GetPosition().x < player2.GetPosition().x)
             {
-                player1.SetPosition(player1.GetPosition().x - correction, player1.GetPosition().y);
-                player2.SetPosition(player2.GetPosition().x + correction, player2.GetPosition().y);
+                player1.SetPosition(player1.GetPosition().x - correction,
+                                    player1.GetPosition().y);
+
+                player2.SetPosition(player2.GetPosition().x + correction,
+                                    player2.GetPosition().y);
             }
             else
             {
-                player1.SetPosition(player1.GetPosition().x + correction, player1.GetPosition().y);
-                player2.SetPosition(player2.GetPosition().x - correction, player2.GetPosition().y);
+                player1.SetPosition(player1.GetPosition().x + correction,
+                                    player1.GetPosition().y);
+
+                player2.SetPosition(player2.GetPosition().x - correction,
+                                    player2.GetPosition().y);
             }
         }
 
+        int tiempo = 60 - reloj.getElapsedTime().asSeconds();
+
+        if(tiempo < 0)
+            tiempo = 0;
+
+        if(tiempo == 0 || vida1 <= 0 || vida2 <= 0)
+            peleaTerminada = true;
+
+        textoVida1.setString("P1: " + std::to_string(vida1));
+        textoVida2.setString("P2: " + std::to_string(vida2));
+        textoTiempo.setString(std::to_string(tiempo));
+
         window.clear();
 
-        // 🎮 MAPA DIBUJADO AQUÍ
         mapManager.draw(window);
 
         window.draw(player1.GetSprite());
         window.draw(player2.GetSprite());
+
+        window.draw(textoVida1);
+        window.draw(textoVida2);
+        window.draw(textoTiempo);
 
         window.display();
     }
 
     return 0;
 }
+
+
 

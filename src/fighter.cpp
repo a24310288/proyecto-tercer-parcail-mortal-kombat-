@@ -14,6 +14,13 @@ Fighter::Fighter(float x, float y, const std::string& imagePath)
 
     groundY = y;
 
+    // ==========================
+    // NUEVO
+    // ==========================
+    health = 100;
+    attacking = false;
+    // ==========================
+
     texture = std::make_unique<sf::Texture>();
 
     if (!texture->loadFromFile(imagePath))
@@ -106,6 +113,44 @@ void Fighter::FaceLeft()
 
     sprite->setScale(sf::Vector2f(-0.5f, 0.5f));
 }
+
+// =====================================
+// NUEVAS FUNCIONES
+// =====================================
+
+int Fighter::GetHealth() const
+{
+    return health;
+}
+
+void Fighter::TakeDamage(int damage)
+{
+    health -= damage;
+
+    if (health < 0)
+        health = 0;
+}
+
+bool Fighter::IsAlive() const
+{
+    return health > 0;
+}
+
+void Fighter::StartAttack()
+{
+    attacking = true;
+}
+
+void Fighter::StopAttack()
+{
+    attacking = false;
+}
+
+bool Fighter::IsAttacking() const
+{
+    return attacking;
+}
+
 
 
 
