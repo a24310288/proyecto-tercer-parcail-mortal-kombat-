@@ -141,27 +141,39 @@ int main()
 
         if(!peleaTerminada)
         {
-            float dx = player1.GetPosition().x - player2.GetPosition().x;
-            bool tocando = std::abs(dx) < 400.f;
-            
-            // F
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F))
-            {
-                if(tocando)
-                {
-                    player2.TakeDamage(10);
-                    std::cout << "P1 golpea -> vida P2: " << player2.GetHealth() << "\n";
-                }
-            }
+           float dx = player1.GetPosition().x - player2.GetPosition().x;
+bool tocando = std::abs(dx) < 400.f;
 
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl))
-            {
-                if(tocando)
-                {
-                    player1.TakeDamage(10);
-                    std::cout << "P2 golpea -> vida P1: " << player1.GetHealth() << "\n";
-                }
-            }
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
+{
+    static bool alreadyHit = false;
+
+    if (!alreadyHit && tocando)
+    {
+        player2.TakeDamage(10);
+        std::cout << "P1 golpea -> vida P2: " << player2.GetHealth() << "\n";
+        alreadyHit = true;
+    }
+
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
+        alreadyHit = false;
+}
+
+if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
+{
+    static bool alreadyHit2 = false;
+
+    if (!alreadyHit2 && tocando)
+    {
+        player1.TakeDamage(10);
+        std::cout << "P2 golpea -> vida P1: " << player1.GetHealth() << "\n";
+        alreadyHit2 = true;
+    }
+
+    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
+        alreadyHit2 = false;
+}
+
         }
 
         player1.Update();
