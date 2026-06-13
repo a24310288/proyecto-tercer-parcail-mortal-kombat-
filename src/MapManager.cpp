@@ -9,10 +9,10 @@ MapManager::MapManager() : sprite(texture)
 void MapManager::loadRandomMap()
 {
     static std::vector<std::string> maps = {
-        "assets/imagenes/escenario rengoku.png",
-        "assets/imagenes/escenario chavo.png",
-        "assets/imagenes/escenario kratos.png",
-        "assets/imagenes/escenario viltrum.png"
+        "assets/imagenes/ecenario rengoku.png",
+        "assets/imagenes/esenario chavo.png",
+        "assets/imagenes/esenario kratos.png",
+        "assets/imagenes/esenario viltrum.png"
     };
 
     int index = std::rand() % maps.size();
