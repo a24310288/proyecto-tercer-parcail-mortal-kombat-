@@ -133,7 +133,9 @@ int main()
             auto p1Bounds = player1.GetBounds();
             auto p2Bounds = player2.GetBounds();
 
-            bool tocando = p1Bounds.findIntersection(p2Bounds).has_value();
+            float distancia = std::abs(player1.GetPosition().x - player2.GetPosition().x);
+bool tocando = distancia <= 120.f;
+
 
             // F
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
