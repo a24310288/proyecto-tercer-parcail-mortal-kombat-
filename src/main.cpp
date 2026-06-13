@@ -145,22 +145,21 @@ int main()
             bool tocando = std::abs(dx) < 300.f;
 
             // F
-
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::F))
             {
-                if (tocando)
+                if(tocando)
                 {
                     player2.TakeDamage(10);
-                    std::cout << "P1 HIT -> vida2: " << player2.GetHealth() << "\n";
+                    std::cout << "P1 golpea -> vida P2: " << player2.GetHealth() << "\n";
                 }
             }
 
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Key::RControl))
             {
-                if (tocando)
+                if(tocando)
                 {
                     player1.TakeDamage(10);
-                    std::cout << "P2 HIT -> vida1: " << player1.GetHealth() << "\n";
+                    std::cout << "P2 golpea -> vida P1: " << player1.GetHealth() << "\n";
                 }
             }
         }
