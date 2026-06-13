@@ -10,7 +10,7 @@
 
 int main()
 {
-    std::srand(std::time(nullptr)); //  RANDOM SOLO UNA VEZ
+    std::srand(std::time(nullptr)); // RANDOM SOLO UNA VEZ
 
     sf::RenderWindow window(
         sf::VideoMode({1280u, 720u}),
@@ -52,22 +52,19 @@ int main()
     CharacterSelect select;
     select.Run(window);
 
-    // 🔥 MAPA ALEATORIO PARA LA PELEA
-    std::string mapPath = MapManager::getRandomMap();
-    std::cout << "Mapa seleccionado: " << mapPath << std::endl;
+    // 🔥 MAPA ALEATORIO
+    MapManager mapManager;
 
     Fighter player1(
         200,
         500,
         select.GetPlayer1()
-        // ⚠️ si aún no modificas Fighter, NO agregamos mapPath aquí
     );
 
     Fighter player2(
         900,
         500,
         select.GetPlayer2()
-        // ⚠️ mismo caso
     );
 
     while(window.isOpen())
@@ -133,7 +130,8 @@ int main()
 
         window.clear();
 
-        // ⚠️ Aquí todavía NO dibujamos el mapa porque Fighter no lo usa aún
+        // 🎮 MAPA DIBUJADO AQUÍ
+        mapManager.draw(window);
 
         window.draw(player1.GetSprite());
         window.draw(player2.GetSprite());
