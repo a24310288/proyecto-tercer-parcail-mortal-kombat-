@@ -146,7 +146,7 @@ bool tocando = distancia <= 180.f;
 
 
             // F
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::G))
 {
     if(!golpeP1 && tocando)
     {
