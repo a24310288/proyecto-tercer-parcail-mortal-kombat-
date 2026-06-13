@@ -142,8 +142,7 @@ int main()
         if(!peleaTerminada)
         {
             float dx = player1.GetPosition().x - player2.GetPosition().x;
-bool tocando = std::abs(dx) < 300.f;
-
+            bool tocando = std::abs(dx) < 300.f;
 
             // F
 
