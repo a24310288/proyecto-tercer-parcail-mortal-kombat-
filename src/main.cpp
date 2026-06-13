@@ -148,17 +148,13 @@ int main()
 
 
             // F
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::G))
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
 {
-    if(!golpeP1 && tocando)
+    if(tocando)
     {
-        vida2 -= 7 + rand() % 2;
-
-        if(vida2 < 0)
-            vida2 = 0;
+        vida2 -= 10;
+        std::cout << "P1 HITS P2 -> vida2: " << vida2 << "\n";
     }
-
-    golpeP1 = true;
 }
 else
 {
@@ -168,16 +164,14 @@ else
             // RIGHT CTRL
             if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
 {
-    if(!golpeP2 && tocando)
+    
+    if(tocando)
     {
-        vida1 -= 7 + rand() % 2;
-
-        if(vida1 < 0)
-            vida1 = 0;
+        vida1 -= 10;
+        std::cout << "P2 HITS P1 -> vida1: " << vida1 << "\n";
     }
-
-    golpeP2 = true;
 }
+
 else
 {
     golpeP2 = false;

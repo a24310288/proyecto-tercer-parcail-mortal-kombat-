@@ -7,7 +7,7 @@
       "command": "cmd.exe",
       "args": [
         "/c",
-        "\"C:\\msys64\\mingw64\\bin\\g++.exe\" -std=c++17 -I \"C:\\msys64\\mingw64\\include\" src\\main.cpp src\\fighter.cpp -L \"C:\\msys64\\mingw64\\lib\" -lsfml-graphics -lsfml-window -lsfml-system -o mortal.exe"
+        "\"C:\\msys64\\mingw64\\bin\\g++.exe\" -std=c++17 -Iinclude -I \"C:\\msys64\\mingw64\\include\" src\\main.cpp src\\fighter.cpp src\\characterselect.cpp src\\MapManager.cpp -L \"C:\\msys64\\mingw64\\lib\" -lsfml-graphics -lsfml-window -lsfml-system -o mortal.exe"
       ],
       "options": {
         "cwd": "${workspaceFolder}"
