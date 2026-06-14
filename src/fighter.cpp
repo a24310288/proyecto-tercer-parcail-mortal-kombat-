@@ -81,7 +81,7 @@ void Fighter::Jump()
 {
     if (!isJumping)
     {
-        velocityY = -5.0f;
+        velocityY = -8.0f;
         isJumping = true;
     }
 }
