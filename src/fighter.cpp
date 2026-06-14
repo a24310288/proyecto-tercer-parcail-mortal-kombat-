@@ -160,8 +160,8 @@ sf::FloatRect Fighter::GetBounds() const
     sf::FloatRect r = sprite->getGlobalBounds();
 
     // Reducimos bastante la caja de colisión
-    r.position.x += 55.f;
-    r.size.x -= 110.f;
+    r.position.x += 100.f;
+    r.size.x -= 160.f;
 
     // Un poco menos de altura también ayuda
     r.position.y += 10.f;
