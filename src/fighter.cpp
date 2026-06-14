@@ -27,22 +27,11 @@ Fighter::Fighter(float x, float y, const std::string& imagePath)
 
     sprite = std::make_unique<sf::Sprite>(*texture);
 
-//=============================
-// CONFIGURACIÓN DE ANIMACIONES
-//=============================
-
 currentAnimation = IDLE;
 
 currentFrame = 0;
 
 frameTime = 0.15f;
-
-//--------------------------------
-// IDLE
-//--------------------------------
-
-// Estos valores los ajustaremos cuando
-// terminemos de medir el spritesheet.
 
 idleFrames.push_back(sf::IntRect(
     sf::Vector2i(0, 0),
@@ -53,10 +42,6 @@ idleFrames.push_back(sf::IntRect(
     sf::Vector2i(170, 0),
     sf::Vector2i(170, 220)
 ));
-
-//--------------------------------
-// Al iniciar mostramos el primer frame
-//--------------------------------
 
 sprite->setTextureRect(idleFrames[0]);
 
@@ -108,10 +93,6 @@ void Fighter::Update()
     UpdateAnimation();
 }
 
-//====================================================
-// PEGA ESTA FUNCIÓN AQUÍ
-//====================================================
-
 void Fighter::UpdateAnimation()
 {
     if (animationClock.getElapsedTime().asSeconds() < frameTime)
@@ -159,11 +140,9 @@ sf::FloatRect Fighter::GetBounds() const
 {
     sf::FloatRect r = sprite->getGlobalBounds();
 
-    // Reducimos bastante la caja de colisión
     r.position.x += 30.f;
     r.size.x -= 60.f;
 
-    // Un poco menos de altura también ayuda
     r.position.y += 10.f;
     r.size.y -= 10.f;
 

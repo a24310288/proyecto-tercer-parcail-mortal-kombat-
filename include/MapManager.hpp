@@ -7,7 +7,6 @@
 
 class MapManager {
 private:
-    // 🔥 REGLA DE ORO EN SFML 3: La textura DEBE declararse antes que el sprite
     sf::Texture texture;
     sf::Sprite sprite;
     std::string currentMap;
