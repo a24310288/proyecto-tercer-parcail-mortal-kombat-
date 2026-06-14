@@ -147,44 +147,45 @@ int main()
         }
 
         if(!peleaTerminada)
-        {
-            sf::FloatRect p1 = player1.GetBounds();
-            sf::FloatRect p2 = player2.GetBounds();
-
-            bool chocando = p1.findIntersection(p2).has_value();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
 {
-    player1.MoveLeft();
-}
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
+    {
+        player1.MoveLeft();
 
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
-{
-    if (!chocando || player1.GetPosition().x < player2.GetPosition().x)
+        if(player1.GetBounds().findIntersection(player2.GetBounds()))
+            player1.MoveRight();
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
+    {
         player1.MoveRight();
-}
 
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
-{
-    player1.Jump();
-}
+        if(player1.GetBounds().findIntersection(player2.GetBounds()))
+            player1.MoveLeft();
+    }
 
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left))
-{
-    if (!chocando || player2.GetPosition().x < player1.GetPosition().x)
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
+        player1.Jump();
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left))
+    {
         player2.MoveLeft();
-}
 
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
-{
-    player2.MoveRight();
-}
+        if(player1.GetBounds().findIntersection(player2.GetBounds()))
+            player2.MoveRight();
+    }
 
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
-{
-    player2.Jump();
-}
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
+    {
+        player2.MoveRight();
 
-        }
+        if(player1.GetBounds().findIntersection(player2.GetBounds()))
+            player2.MoveLeft();
+    }
+
+    if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
+        player2.Jump();
+}
 
         if(!peleaTerminada)
 {
@@ -218,10 +219,6 @@ bool tocando = distancia < 40.f;
     {
         alreadyHit = false;
     }
-
-    //=========================
-    // PLAYER 2
-    //=========================
 
     static bool alreadyHit2 = false;
 
@@ -262,27 +259,6 @@ bool tocando = distancia < 40.f;
         auto p1Bounds = player1.GetBounds();
         auto p2Bounds = player2.GetBounds();
 
-        if(auto overlap = p1Bounds.findIntersection(p2Bounds))
-        {
-            float correction = overlap->size.x / 3.f;
-
-            if(player1.GetPosition().x < player2.GetPosition().x)
-            {
-                player1.SetPosition(player1.GetPosition().x - correction,
-                                    player1.GetPosition().y);
-
-                player2.SetPosition(player2.GetPosition().x + correction,
-                                    player2.GetPosition().y);
-            }
-            else
-            {
-                player1.SetPosition(player1.GetPosition().x + correction,
-                                    player1.GetPosition().y);
-
-                player2.SetPosition(player2.GetPosition().x - correction,
-                                    player2.GetPosition().y);
-            }
-        }
 
         int tiempo = 60 - reloj.getElapsedTime().asSeconds();
 
