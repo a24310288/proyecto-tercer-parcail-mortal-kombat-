@@ -169,12 +169,15 @@ int main()
 
         if(!peleaTerminada)
 {
-    float dx = player1.GetPosition().x - player2.GetPosition().x;
-    bool tocando = std::abs(dx) < 90.f;
+    sf::FloatRect b1 = player1.GetBounds();
+sf::FloatRect b2 = player2.GetBounds();
 
-    //=========================
-    // PLAYER 1
-    //=========================
+float distancia = std::abs(
+    (b1.position.x + b1.size.x / 2.f) -
+    (b2.position.x + b2.size.x / 2.f)
+);
+
+bool tocando = distancia < 40.f;
 
     static bool alreadyHit = false;
 
