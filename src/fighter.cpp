@@ -173,9 +173,11 @@ void Fighter::FaceRight()
 
 void Fighter::FaceLeft()
 {
+    sf::IntRect rect = sprite->getTextureRect();
+
     sprite->setOrigin(
         sf::Vector2f(
-            static_cast<float>(texture->getSize().x),
+            static_cast<float>(rect.size.x),
             0.f
         )
     );
