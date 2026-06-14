@@ -157,7 +157,12 @@ sf::Vector2f Fighter::GetPosition() const
 
 sf::FloatRect Fighter::GetBounds() const
 {
-    return sprite->getGlobalBounds();
+    sf::FloatRect r = sprite->getGlobalBounds();
+
+    r.position.x += 40.f;
+    r.size.x -= 80.f;
+
+    return r;
 }
 
 void Fighter::FaceRight()
