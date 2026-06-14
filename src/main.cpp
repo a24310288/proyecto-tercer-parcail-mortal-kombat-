@@ -245,7 +245,7 @@ bool tocando = distancia < 40.f;
 
         if(auto overlap = p1Bounds.findIntersection(p2Bounds))
         {
-            float correction = overlap->size.x / 8.f;
+            float correction = overlap->size.x / 3.f;
 
             if(player1.GetPosition().x < player2.GetPosition().x)
             {
