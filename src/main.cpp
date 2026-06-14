@@ -168,41 +168,60 @@ int main()
         }
 
         if(!peleaTerminada)
-        {
-           float dx = player1.GetPosition().x - player2.GetPosition().x;
-bool tocando = std::abs(dx) < 400.f;
-
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
 {
+    float dx = player1.GetPosition().x - player2.GetPosition().x;
+    bool tocando = std::abs(dx) < 90.f;
+
+    //=========================
+    // PLAYER 1
+    //=========================
+
     static bool alreadyHit = false;
 
-    if (!alreadyHit && tocando)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
     {
-        player2.TakeDamage(10);
-        std::cout << "P1 golpea -> vida P2: " << player2.GetHealth() << "\n";
-        alreadyHit = true;
+        if (!alreadyHit && tocando)
+        {
+            int damage = 7 + rand() % 2; // 7 u 8
+
+            player2.TakeDamage(damage);
+
+            std::cout << "P1 golpea -> -" << damage
+                      << " Vida P2: " << player2.GetHealth() << "\n";
+
+            alreadyHit = true;
+        }
+    }
+    else
+    {
+        alreadyHit = false;
     }
 
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
-        alreadyHit = false;
-}
+    //=========================
+    // PLAYER 2
+    //=========================
 
-if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
-{
     static bool alreadyHit2 = false;
 
-    if (!alreadyHit2 && tocando)
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
     {
-        player1.TakeDamage(10);
-        std::cout << "P2 golpea -> vida P1: " << player1.GetHealth() << "\n";
-        alreadyHit2 = true;
-    }
+        if (!alreadyHit2 && tocando)
+        {
+            int damage = 7 + rand() % 2; // 7 u 8
 
-    if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
-        alreadyHit2 = false;
-}
+            player1.TakeDamage(damage);
 
+            std::cout << "P2 golpea -> -" << damage
+                      << " Vida P1: " << player1.GetHealth() << "\n";
+
+            alreadyHit2 = true;
         }
+    }
+    else
+    {
+        alreadyHit2 = false;
+    }
+}
 
         player1.Update();
         player2.Update();
