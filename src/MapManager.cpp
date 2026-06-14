@@ -1,18 +1,22 @@
 #include "MapManager.hpp"
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 
 MapManager::MapManager() : sprite(texture)
 {
+    std::srand(static_cast<unsigned>(std::time(nullptr)));
 }
 
 void MapManager::loadRandomMap()
 {
-    static std::vector<std::string> maps = {
-        "assets/imagenes/ecenario rengoku.png",
-        "assets/imagenes/esenario chavo.png",
-        "assets/imagenes/esenario kratos.png",
+    // 👉 Cambia aquí tus mapas si tienes más
+    std::vector<std::string> maps =
+    {
         "assets/imagenes/esenario viltrum.png"
+        // puedes agregar más:
+        // "assets/imagenes/mapa2.png",
+        // "assets/imagenes/mapa3.png"
     };
 
     int index = std::rand() % maps.size();
@@ -22,17 +26,16 @@ void MapManager::loadRandomMap()
 
     if (!texture.loadFromFile(currentMap))
     {
-        std::cout << "Error cargando imagen: " << currentMap << std::endl;
+        std::cout << "ERROR: no se pudo cargar el mapa\n";
         return;
     }
 
-    setupSprite();
-}
-
-void MapManager::setupSprite()
-{
     sprite.setTexture(texture);
-    sprite.setPosition(sf::Vector2f(0.f, 0.f));
+
+sprite.setPosition({0.f, 0.f});
+sprite.setScale({1.f, 1.f});
+
+    std::cout << "Mapa cargado correctamente\n";
 }
 
 void MapManager::draw(sf::RenderWindow& window)
