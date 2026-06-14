@@ -3,7 +3,9 @@
 #include <string>
 #include <cstdlib>
 #include <ctime>
+#include <filesystem>
 
+#include <SFML/Audio.hpp>
 #include "fighter.hpp"
 #include "characterselect.hpp"
 #include "MapManager.hpp"
@@ -16,6 +18,8 @@ int main()
         sf::VideoMode({1280u, 720u}),
         "Mortal Kombat"
     );
+    sf::Music fightMusic;
+    bool musicStarted = false;
 
     sf::Texture portadaTexture;
 
@@ -33,21 +37,43 @@ int main()
     bool startScreen = true;
 
     while(window.isOpen() && startScreen)
+{
+    if (!musicStarted)
     {
-        while(auto event = window.pollEvent())
+        const std::filesystem::path musicPath = "assets/musica/musica de fondo mk.mp3";
+
+        if (std::filesystem::exists(musicPath))
         {
-            if(event->is<sf::Event::Closed>())
-                window.close();
-
-            if(event->is<sf::Event::KeyPressed>())
-                startScreen = false;
+            if (fightMusic.openFromFile(musicPath.string()))
+            {
+                fightMusic.setLooping(true);
+                fightMusic.play();
+                musicStarted = true;
+            }
+            else
+            {
+                std::cerr << "No se pudo abrir la música: " << musicPath << "\n";
+            }
         }
-
-        window.clear();
-        window.draw(portadaSprite);
-        window.display();
+        else
+        {
+            std::cerr << "La ruta de la música no existe: " << musicPath << "\n";
+        }
     }
 
+    while(auto event = window.pollEvent())
+    {
+        if(event->is<sf::Event::Closed>())
+            window.close();
+
+        if(event->is<sf::Event::KeyPressed>())
+            startScreen = false;
+    }
+
+    window.clear();
+    window.draw(portadaSprite);
+    window.display();
+}
     CharacterSelect select;
     select.Run(window);
 
@@ -224,7 +250,7 @@ if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::RControl))
 
         if(tiempo == 0 || player1.GetHealth() <= 0 || player2.GetHealth() <= 0)
             peleaTerminada = true;
-
+            fightMusic.stop();
         textoVida1.setString("P1: " + std::to_string(player1.GetHealth()));
         textoVida2.setString("P2: " + std::to_string(player2.GetHealth()));
         textoTiempo.setString(std::to_string(tiempo));
