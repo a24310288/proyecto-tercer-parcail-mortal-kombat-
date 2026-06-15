@@ -317,7 +317,6 @@ int main()
         window.draw(textoVida2);
         window.draw(textoTiempo);
 
-        // Modificación 3: Dibujar el letrero final si la pelea acabó
         if(peleaTerminada)
         {
             window.draw(textoFinal);
