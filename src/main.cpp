@@ -98,7 +98,7 @@ int main()
     sf::Text textoVida1(font);
     sf::Text textoVida2(font);
     sf::Text textoTiempo(font);
-    sf::Text textoFinal(font); // Modificación 1: Variable para el mensaje de fin de juego
+    sf::Text textoFinal(font); 
 
     textoVida1.setString("P1: " + std::to_string(player1.GetHealth()));
     textoVida2.setString("P2: " + std::to_string(player2.GetHealth()));
@@ -112,12 +112,12 @@ int main()
     textoVida1.setCharacterSize(30);
     textoVida2.setCharacterSize(30);
     textoTiempo.setCharacterSize(35);
-    textoFinal.setCharacterSize(65); // Un tamaño grande y vistoso
+    textoFinal.setCharacterSize(65); 
 
     textoVida1.setFillColor(sf::Color::White);
     textoVida2.setFillColor(sf::Color::White);
     textoTiempo.setFillColor(sf::Color::Yellow);
-    textoFinal.setFillColor(sf::Color::Red); // Color rojo tipo Mortal Kombat
+    textoFinal.setFillColor(sf::Color::Red); 
 
     textoVida1.setPosition({20.f,20.f});
     textoVida2.setPosition({1000.f,20.f});
@@ -261,7 +261,6 @@ int main()
         auto p1Bounds = player1.GetBounds();
         auto p2Bounds = player2.GetBounds();
 
-        // Modificación 2: Controlar el tiempo y asignar el texto de victoria/tiempo agotado
         static int tiempoCongelado = 60;
         int tiempo = tiempoCongelado;
 
@@ -279,7 +278,6 @@ int main()
                 peleaTerminada = true;
                 fightMusic.stop();
 
-                // Lógica para decidir qué mensaje mostrar
                 if(player2.GetHealth() <= 0)
                 {
                     textoFinal.setString("JUGADOR 1 GANA");
@@ -293,7 +291,6 @@ int main()
                     textoFinal.setString("TIEMPO AGOTADO");
                 }
 
-                // Centrar dinámicamente el texto en la pantalla (1280x720) usando sintaxis SFML 3
                 sf::FloatRect textBounds = textoFinal.getLocalBounds();
                 textoFinal.setPosition({
                     (1280.f - textBounds.size.x) / 2.f,
