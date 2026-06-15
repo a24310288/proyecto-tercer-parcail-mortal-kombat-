@@ -35,7 +35,7 @@ private:
     std::string p1Result;
     std::string p2Result;
 
-    void LoadCharacters();
+     void LoadCharacters();
     void UpdateCursorPositions();
     void MoveP1(sf::Keyboard::Scancode key);
     void MoveP2(sf::Keyboard::Scancode key);
