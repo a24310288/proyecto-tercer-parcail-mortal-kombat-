@@ -8,7 +8,7 @@
 class Fighter
 {
 public:
-    Fighter(float x, float y, const std::string& imagePath);
+    Fighter(float x, float y, const std::string& characterName);
     ~Fighter();
 
     void MoveLeft();
@@ -37,8 +37,7 @@ public:
     void SetAttack();
 
 private:
-
-    // Movimiento
+    // Movimiento y Física
     float speed;
     float velocityY;
     float gravity;
@@ -46,31 +45,34 @@ private:
     float groundY;
 
     int health;
-
     bool attacking;
 
-    std::unique_ptr<sf::Texture> texture;
+    // Puntero al sprite principal
     std::unique_ptr<sf::Sprite> sprite;
 
     enum AnimationState
     {
         IDLE,
         WALK,
+        JUMP,
         ATTACK
     };
 
     AnimationState currentAnimation;
+    
+    // Contenedores de texturas dinámicas
+    std::vector<sf::Texture> idleTextures;
+    std::vector<sf::Texture> walkTextures;
+    std::vector<sf::Texture> jumpTextures;
+    std::vector<sf::Texture> attackTextures;
 
-    std::vector<sf::IntRect> idleFrames;
-    std::vector<sf::IntRect> walkFrames;
-    std::vector<sf::IntRect> attackFrames;
-
-    int currentFrame;
-
+    size_t currentFrame;
     sf::Clock animationClock;
-
     float frameTime;
+    
+    bool isMovingThisFrame;
 
     void UpdateAnimation();
-
+    void LoadAnimationFolder(const std::string& folderPath, const std::string& prefix, int frameCount, std::vector<sf::Texture>& targetVector);
 };
+
