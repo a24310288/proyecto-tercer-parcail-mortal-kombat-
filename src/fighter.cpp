@@ -6,23 +6,23 @@
 #include <cmath>
 #include <memory>
 
-// Función adaptada para cargar formatos usando memoria dinámica segura
+// Función de carga con rutas en formato guion bajo para SFML 3
 void Fighter::LoadAnimationFolder(const std::string& folderPath, const std::string& prefix, int frameCount, std::vector<std::unique_ptr<sf::Texture>>& targetVector)
 {
     for (size_t i = 1; i <= static_cast<size_t>(frameCount); ++i)
     {
-        // Creamos el puntero inteligente correctamente con std::make_unique<>()
         auto tex = std::make_unique<sf::Texture>();
-        std::string fullPath = folderPath + "/" + prefix + "(" + std::to_string(i) + ").png";
         
-        // Usamos '->' porque 'tex' es un puntero inteligente
-        if (!tex->loadFromFile(fullPath))
+        // Formato con guion bajo: ej. "chavo_basico_1.png"
+        std::string filePath = folderPath + "/" + prefix + "_" + std::to_string(i) + ".png";
+        
+        if (tex->loadFromFile(filePath))
         {
-            std::cerr << "Error: No se pudo cargar el frame obligatorio en: " << fullPath << "\n";
+            targetVector.push_back(std::move(tex));
         }
         else
         {
-            targetVector.push_back(std::move(tex));
+            std::cerr << "Alerta: No se encontro la imagen en: " << filePath << "\n";
         }
     }
 }
@@ -44,39 +44,36 @@ Fighter::Fighter(float x, float y, const std::string& characterName)
 
     std::string basePath = "assets/imagenes/sprites/" + characterName;
 
-    // --- CARGA DE ANIMACIONES ---
+    // Asignación de carpetas y archivos base
     if (characterName == "chavo")
     {
-        LoadAnimationFolder(basePath, "chavo basico", 4, idleTextures);
-        LoadAnimationFolder(basePath, "chavo caminar", 4, walkTextures);
-        LoadAnimationFolder(basePath, "chavo salto", 2, jumpTextures);
-        LoadAnimationFolder(basePath, "chavo ataque", 4, attackTextures); 
+        LoadAnimationFolder(basePath, "chavo_basico", 4, idleTextures);
+        LoadAnimationFolder(basePath, "chavo_caminar", 4, walkTextures);
+        LoadAnimationFolder(basePath, "chavo_salto", 2, jumpTextures);
+        LoadAnimationFolder(basePath, "chavo_ataque", 4, attackTextures); 
     }
     else if (characterName == "kratos")
     {
-        LoadAnimationFolder(basePath, "kratos ataque", 4, idleTextures);  
-        LoadAnimationFolder(basePath, "kratos caminar", 4, walkTextures);
-        LoadAnimationFolder(basePath, "kratos salto", 2, jumpTextures);
-        LoadAnimationFolder(basePath, "kratos ataque", 4, attackTextures);
+        LoadAnimationFolder(basePath, "kratos_ataque", 4, idleTextures);  
+        LoadAnimationFolder(basePath, "kratos_caminar", 4, walkTextures);
+        LoadAnimationFolder(basePath, "kratos_salto", 2, jumpTextures);
+        LoadAnimationFolder(basePath, "kratos_ataque", 4, attackTextures);
     }
     else 
     {
-        LoadAnimationFolder(basePath, characterName + " basico", 4, idleTextures);
-        LoadAnimationFolder(basePath, characterName + " caminar", 4, walkTextures);
-        LoadAnimationFolder(basePath, characterName + " salto", 2, jumpTextures);
-        LoadAnimationFolder(basePath, characterName + " ataque", 4, attackTextures);
+        LoadAnimationFolder(basePath, characterName + "_basico", 4, idleTextures);
+        LoadAnimationFolder(basePath, characterName + "_caminar", 4, walkTextures);
+        LoadAnimationFolder(basePath, characterName + "_salto", 2, jumpTextures);
+        LoadAnimationFolder(basePath, characterName + "_ataque", 4, attackTextures);
     }
 
-    // Inicializamos el Sprite
-    if (!idleTextures.empty())
+    sprite = std::make_unique<sf::Sprite>(*idleTextures[0]);
+
+    if (idleTextures.empty())
     {
-        sprite = std::make_unique<sf::Sprite>(*idleTextures[0]);
-    }
-    else
-    {
-        std::cerr << "Critico: El personaje '" << characterName << "' no tiene imagenes basicas en " << basePath << "\n";
-        // Crear un sprite con una textura dummy para evitar crash
-        idleTextures.push_back(std::make_unique<sf::Texture>());
+        // Textura dummy limpia
+        auto dummyTex = std::make_unique<sf::Texture>();
+        idleTextures.push_back(std::move(dummyTex));
         sprite = std::make_unique<sf::Sprite>(*idleTextures[0]);
     }
 
@@ -214,7 +211,13 @@ sf::Vector2f Fighter::GetPosition() const
 
 sf::FloatRect Fighter::GetBounds() const
 {
-    return sprite->getGlobalBounds();
+    sf::FloatRect originalBounds = sprite->getGlobalBounds();
+    sf::FloatRect adjustedBounds;
+    adjustedBounds.position.x = originalBounds.position.x + 15.f;
+    adjustedBounds.position.y = originalBounds.position.y;
+    adjustedBounds.size.x = originalBounds.size.x - 30.f;
+    adjustedBounds.size.y = originalBounds.size.y;
+    return adjustedBounds;
 }
 
 void Fighter::FaceRight()
@@ -230,8 +233,8 @@ void Fighter::FaceLeft()
     float absScaleX = std::abs(sprite->getScale().x);
     float absScaleY = std::abs(sprite->getScale().y);
     
-    const sf::Texture& texture = sprite->getTexture();
-    sprite->setOrigin(sf::Vector2f(static_cast<float>(texture.getSize().x), 0.f));
+    auto textureSize = sprite->getTexture().getSize();
+    sprite->setOrigin(sf::Vector2f(static_cast<float>(textureSize.x), 0.f));
     sprite->setScale(sf::Vector2f(-absScaleX, absScaleY));
 }
 
@@ -274,6 +277,3 @@ bool Fighter::IsAttacking() const
 void Fighter::SetIdle() { currentAnimation = IDLE; }
 void Fighter::SetWalk() { currentAnimation = WALK; }
 void Fighter::SetAttack() { currentAnimation = ATTACK; }
-
-
-

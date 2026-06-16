@@ -37,7 +37,6 @@ public:
     void SetAttack();
 
 private:
-    // Movimiento y Física
     float speed;
     float velocityY;
     float gravity;
@@ -47,7 +46,6 @@ private:
     int health;
     bool attacking;
 
-    // Sprite principal
     std::unique_ptr<sf::Sprite> sprite;
 
     enum AnimationState
@@ -60,7 +58,6 @@ private:
 
     AnimationState currentAnimation;
     
-    // Contenedores dinámicos usando punteros para que SFML no rompa las referencias en memoria
     std::vector<std::unique_ptr<sf::Texture>> idleTextures;
     std::vector<std::unique_ptr<sf::Texture>> walkTextures;
     std::vector<std::unique_ptr<sf::Texture>> jumpTextures;
