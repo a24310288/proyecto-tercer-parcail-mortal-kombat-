@@ -206,15 +206,18 @@ int main()
                     player2.Jump();
 
                 // DETECCION DE DAÑO Y ATAQUES
-                sf::FloatRect b1 = player1.GetBounds();
-                sf::FloatRect b2 = player2.GetBounds();
+                // DETECCION DE DAÑO Y ATAQUES (ACTUALIZADO A SFML 3)
+        // DETECCION DE DAÑO Y ATAQUES
+        sf::FloatRect b1 = player1.GetBounds();
+        sf::FloatRect b2 = player2.GetBounds();
 
-                float distancia = std::abs(
-                    (b1.position.x + b1.size.x / 2.f) -
-                    (b2.position.x + b2.size.x / 2.f)
-                );
+        // Usando la sintaxis oficial de SFML 3 (.position y .size)
+        float distancia = std::abs(
+            (b1.position.x + b1.size.x / 2.f) - 
+            (b2.position.x + b2.size.x / 2.f)
+        );
 
-                bool tocando = distancia < 40.f;
+        bool tocando = distancia < 60.f; // Rango de colisión ajustado para el combate
 
                 static bool alreadyHit = false;
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::F))
@@ -320,13 +323,17 @@ int main()
                         }
                     }
 
-                    // Posicionar y centrar correctamente la etiqueta de texto final
-                    sf::FloatRect textBounds = textoFinal.getLocalBounds();
-                    textoFinal.setPosition({
-                        (1280.f - textBounds.size.x) / 2.f,
-                        (720.f - textBounds.size.y) / 2.f
-                    });
+                    // // Posicionar y centrar correctamente la etiqueta de texto final
+        sf::FloatRect textBounds = textoFinal.getLocalBounds();
+        
+        // SFML 3 requiere pasar un par de llaves {} para definir la posición del origen
+        textoFinal.setOrigin({textBounds.position.x + textBounds.size.x / 2.0f, 
+                              textBounds.position.y + textBounds.size.y / 2.0f});
 
+        textoFinal.setPosition({
+            (1280.f - textBounds.size.x) / 2.f,
+            (720.f - textBounds.size.y) / 2.f
+        });
                     // Bucle de bloqueo: Congela la escena para visualizar los textos y espera un "Enter"
                     bool esperarEnter = true;
                     while(window.isOpen() && esperarEnter)

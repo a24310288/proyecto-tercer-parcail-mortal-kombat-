@@ -1,75 +1,58 @@
-#pragma once
+#ifndef FIGHTER_HPP
+#define FIGHTER_HPP
 
 #include <SFML/Graphics.hpp>
-#include <memory>
-#include <string>
 #include <vector>
+#include <string>
+#include <memory>
 
-class Fighter
-{
+class Fighter {
 public:
+    enum AnimationState { IDLE, WALK, JUMP, ATTACK };
+
     Fighter(float x, float y, const std::string& characterName);
     ~Fighter();
 
+    void Update();
     void MoveLeft();
     void MoveRight();
     void Jump();
-    void Update();
-
-    const sf::Sprite& GetSprite() const;
-    void SetPosition(float x, float y);
-    sf::Vector2f GetPosition() const;
-    sf::FloatRect GetBounds() const;
-
-    void FaceRight();
-    void FaceLeft();
-
-    int GetHealth() const;
-    void TakeDamage(int damage);
-    bool IsAlive() const;
-
     void StartAttack();
     void StopAttack();
-    bool IsAttacking() const;
-
+    
+    void TakeDamage(int damage);
     void SetIdle();
     void SetWalk();
     void SetAttack();
+    void FaceLeft();
+    void FaceRight();
+
+    int GetHealth() const;
+    bool IsAlive() const;
+    bool IsAttacking() const;
+    sf::FloatRect GetBounds() const;
+    sf::Vector2f GetPosition() const;
+    const sf::Sprite& GetSprite() const;
 
 private:
-    float speed;
-    float velocityY;
-    float gravity;
-    bool isJumping;
-    float groundY;
+    void LoadAnimationFolder(const std::string& basePath, const std::string& animName, std::vector<std::unique_ptr<sf::Texture>>& container);
 
     int health;
+    AnimationState currentAnimation;
+    int currentFrame;
+    float animationTimer; 
+    std::string name;
+
+    bool facingRight;
     bool attacking;
+    float velocityY;
+    bool isGrounded;
 
     std::unique_ptr<sf::Sprite> sprite;
-
-    enum AnimationState
-    {
-        IDLE,
-        WALK,
-        JUMP,
-        ATTACK
-    };
-
-    AnimationState currentAnimation;
-    
     std::vector<std::unique_ptr<sf::Texture>> idleTextures;
     std::vector<std::unique_ptr<sf::Texture>> walkTextures;
     std::vector<std::unique_ptr<sf::Texture>> jumpTextures;
     std::vector<std::unique_ptr<sf::Texture>> attackTextures;
-
-    size_t currentFrame;
-    sf::Clock animationClock;
-    float frameTime;
-    
-    bool isMovingThisFrame;
-
-    void UpdateAnimation();
-    void LoadAnimationFolder(const std::string& folderPath, const std::string& prefix, int frameCount, std::vector<std::unique_ptr<sf::Texture>>& targetVector);
 };
 
+#endif
