@@ -47,7 +47,7 @@ private:
     int health;
     bool attacking;
 
-    // Puntero al sprite principal
+    // Sprite principal
     std::unique_ptr<sf::Sprite> sprite;
 
     enum AnimationState
@@ -60,11 +60,11 @@ private:
 
     AnimationState currentAnimation;
     
-    // Contenedores de texturas dinámicas
-    std::vector<sf::Texture> idleTextures;
-    std::vector<sf::Texture> walkTextures;
-    std::vector<sf::Texture> jumpTextures;
-    std::vector<sf::Texture> attackTextures;
+    // Contenedores dinámicos usando punteros para que SFML no rompa las referencias en memoria
+    std::vector<std::unique_ptr<sf::Texture>> idleTextures;
+    std::vector<std::unique_ptr<sf::Texture>> walkTextures;
+    std::vector<std::unique_ptr<sf::Texture>> jumpTextures;
+    std::vector<std::unique_ptr<sf::Texture>> attackTextures;
 
     size_t currentFrame;
     sf::Clock animationClock;
@@ -73,6 +73,6 @@ private:
     bool isMovingThisFrame;
 
     void UpdateAnimation();
-    void LoadAnimationFolder(const std::string& folderPath, const std::string& prefix, int frameCount, std::vector<sf::Texture>& targetVector);
+    void LoadAnimationFolder(const std::string& folderPath, const std::string& prefix, int frameCount, std::vector<std::unique_ptr<sf::Texture>>& targetVector);
 };
 
