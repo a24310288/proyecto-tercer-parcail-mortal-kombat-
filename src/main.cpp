@@ -10,6 +10,18 @@
 #include "characterselect.hpp"
 #include "MapManager.hpp"
 
+// Función auxiliar para extraer el nombre limpio del personaje si se pasa una ruta de archivo
+std::string obtenerNombreLimpio(const std::string& rutaOTexto)
+{
+    // Si contiene una barra o extensión, extraemos solo el nombre del archivo sin extensión
+    if (rutaOTexto.find('/') != std::string::npos || rutaOTexto.find('\\') != std::string::npos)
+    {
+        std::filesystem::path p(rutaOTexto);
+        return p.stem().string(); // "assets/imagenes/kratos.jpeg" -> se convierte en "kratos"
+    }
+    return rutaOTexto;
+}
+
 int main()
 {
     std::srand(std::time(nullptr));
@@ -127,8 +139,12 @@ int main()
             // Cambiar dinámicamente de mapa aleatorio al inicio de cada ronda
             mapManager.loadRandomMap();
 
-            Fighter player1(200, 500, select.GetPlayer1());
-            Fighter player2(900, 500, select.GetPlayer2());
+            // Sanear los nombres obtenidos para eliminar rutas duplicadas como assets/imagenes/kratos.jpeg
+            std::string p1Nombre = obtenerNombreLimpio(select.GetPlayer1());
+            std::string p2Nombre = obtenerNombreLimpio(select.GetPlayer2());
+
+            Fighter player1(200, 500, p1Nombre);
+            Fighter player2(900, 500, p2Nombre);
 
             sf::Clock reloj;
             bool peleaTerminada = false;
@@ -382,4 +398,3 @@ int main()
 
     return 0;
 }
-
