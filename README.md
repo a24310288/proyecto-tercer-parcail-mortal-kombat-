@@ -42,4 +42,10 @@ Daño Variable Calibrado: Cada impacto exitoso inflige un daño impredecible y b
 
     Assets de terceros utilizados
     Referencias o inspiraciones
-    Agradecimientos: 
+    Agradecimientos: Quisiera expresar mi más sincero agradecimiento al profesor Jose Ramon Navarro Marques, ya que gracias a su orientación y enseñanza fue posible desarrollar este proyecto. A lo largo del semestre, su apoyo fue fundamental, especialmente porque me enseñó a utilizar la inteligencia artificial como una herramienta de aprendizaje y apoyo en el proceso de creación de este juego.
+
+Asimismo, deseo resaltar que, aunque durante este periodo académico no se abarcó una gran cantidad de contenido de manera extensa, las enseñanzas que se abordaron resultaron ser de gran valor. Gracias a ello, logré adquirir nuevas capacidades y habilidades relacionadas con la programación, tales como la corrección y mejora de estructuras de código, la creación y manejo de sprites, así como la implementación de elementos básicos para el desarrollo de un videojuego funcional.
+
+De igual forma, considero importante mencionar que el tiempo fue un factor limitado, sin embargo, a pesar de ello, el profesor logró transmitir conocimientos clave que permitieron la realización de un proyecto completo en un periodo relativamente corto. Esto no solo fortaleció mis habilidades técnicas, sino también mi capacidad de resolución de problemas y aprendizaje autónomo.
+
+Por todo lo anterior, reitero mi agradecimiento por su dedicación, paciencia y disposición para enseñar, ya que su guía fue esencial para el desarrollo de este proyecto y para mi formación en el área de la programación y el desarrollo de videojuegos
