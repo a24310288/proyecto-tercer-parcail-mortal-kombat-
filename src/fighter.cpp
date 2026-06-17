@@ -21,10 +21,8 @@ Fighter::Fighter(float x, float y, const std::string& characterName)
     velocityY = 0.f;
     isGrounded = true;
 
-    // RUTA REAL CORREGIDA: Apunta directo a assets/sprites/ sin carpetas fantasmas
     std::string basePath = "assets/sprites/" + name;
 
-    // BLINDAJE ANTI-MAYÚSCULAS: Validamos tanto chavo/Chavo como kratos/Kratos
     if (name == "chavo")
     {
         LoadAnimationFolder(basePath, "chavo_basico_1", idleTextures);
@@ -32,16 +30,15 @@ Fighter::Fighter(float x, float y, const std::string& characterName)
         LoadAnimationFolder(basePath, "chavo_salto", jumpTextures);
         LoadAnimationFolder(basePath, "chavo_dash", attackTextures); 
     }
-    else // Si es kratos, Kratos o cualquier otro parámetro por defecto
+    else 
     {
-        name = "kratos"; // Aseguramos consistencia interna
+        name = "kratos"; 
         LoadAnimationFolder(basePath, "kratos_ataque_1", idleTextures);
         LoadAnimationFolder(basePath, "kratos_caminar", walkTextures);
         LoadAnimationFolder(basePath, "kratos_salto", jumpTextures);
         LoadAnimationFolder(basePath, "kratos_dash", attackTextures);
     }
 
-    // Si falló la carga por culpa de una ruta de carpeta externa, creamos texturas sólidas para que no se rompa el motor gráfico
     if (idleTextures.empty() || !idleTextures[0] || idleTextures[0]->getSize().x == 0)
     {
         std::cout << "Advertencia: Usando textura de respaldo para evitar parpadeos descontrolados.\n";
@@ -56,7 +53,7 @@ Fighter::Fighter(float x, float y, const std::string& characterName)
     sprite = std::make_unique<sf::Sprite>(*idleTextures[0]);
     sprite->setTextureRect(sf::IntRect({0, 0}, {128, 150}));
     sprite->setPosition({x, y});
-    sprite->setOrigin({64.f, 75.f}); // 128x150 sprites
+    sprite->setOrigin({64.f, 75.f}); 
 }
 void Fighter::LoadAnimationFolder(
     const std::string& basePath,
@@ -78,9 +75,6 @@ void Fighter::LoadAnimationFolder(
 
 void Fighter::Update()
 {
-    // ----------------- GRAVEDAD -----------------
-
-    // ----------------- GRAVEDAD -----------------
 if (sprite)
 {
     if (currentAnimation != ATTACK)
@@ -102,8 +96,6 @@ if (sprite)
         }
     }
 }
-
-    // ----------------- SELECCIONAR ANIMACION -----------------
 
     sf::Texture* currentTex = nullptr;
     int totalFrames = 1;

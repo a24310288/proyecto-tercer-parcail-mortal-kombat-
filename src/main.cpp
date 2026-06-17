@@ -10,14 +10,12 @@
 #include "characterselect.hpp"
 #include "MapManager.hpp"
 
-// Función auxiliar para extraer el nombre limpio del personaje si se pasa una ruta de archivo
 std::string obtenerNombreLimpio(const std::string& rutaOTexto)
 {
-    // Si contiene una barra o extensión, extraemos solo el nombre del archivo sin extensión
     if (rutaOTexto.find('/') != std::string::npos || rutaOTexto.find('\\') != std::string::npos)
     {
         std::filesystem::path p(rutaOTexto);
-        return p.stem().string(); // "assets/imagenes/kratos.jpeg" -> se convierte en "kratos"
+        return p.stem().string(); 
     }
     return rutaOTexto;
 }
@@ -53,7 +51,6 @@ int main()
         return -1;
     }
 
-    // Elementos de la interfaz de texto
     sf::Text textoVida1(font);
     sf::Text textoVida2(font);
     sf::Text textoTiempo(font);
@@ -62,7 +59,7 @@ int main()
     textoVida1.setCharacterSize(30);
     textoVida2.setCharacterSize(30);
     textoTiempo.setCharacterSize(35);
-    textoFinal.setCharacterSize(50); // Ajustado para que quepan textos más largos de ronda
+    textoFinal.setCharacterSize(50); 
 
     textoVida1.setFillColor(sf::Color::White);
     textoVida2.setFillColor(sf::Color::White);
@@ -70,13 +67,11 @@ int main()
     textoFinal.setFillColor(sf::Color::Red); 
 
     textoVida1.setPosition({20.f,20.f});
-    textoVida2.setPosition({950.f,20.f}); // Movido un poco a la izquierda por los marcadores
+    textoVida2.setPosition({950.f,20.f}); 
     textoTiempo.setPosition({550.f,20.f});
 
-    // BUCLE MAESTRO: Controla la rejugabilidad completa del juego
     while(window.isOpen())
     {
-        // --- 1. PANTALLA DE PORTADA ---
         bool startScreen = true;
 
         while(window.isOpen() && startScreen)
@@ -123,23 +118,18 @@ int main()
 
         if (!window.isOpen()) break;
 
-        // --- 2. SELECCIÓN DE PERSONAJES ---
         CharacterSelect select;
         select.Run(window);
 
-        // --- 3. CONFIGURACIÓN INICIAL DEL COMBATE GLOBALES ---
         MapManager mapManager;
         int rondaActual = 1;
         int rondasGanadasP1 = 0;
         int rondasGanadasP2 = 0;
 
-        // Bucle estructurado de 3 rondas obligatorias
         while(rondaActual <= 3 && window.isOpen())
         {
-            // Cambiar dinámicamente de mapa aleatorio al inicio de cada ronda
             mapManager.loadRandomMap();
 
-            // Sanear los nombres obtenidos para eliminar rutas duplicadas como assets/imagenes/kratos.jpeg
             std::string p1Nombre = obtenerNombreLimpio(select.GetPlayer1());
             std::string p2Nombre = obtenerNombreLimpio(select.GetPlayer2());
 
@@ -149,8 +139,6 @@ int main()
             sf::Clock reloj;
             bool peleaTerminada = false;
             int tiempoCongelado = 60;
-
-            // Loop activo de la pelea en la ronda actual
             while(window.isOpen() && !peleaTerminada)
             {
                 while(auto event = window.pollEvent())
@@ -170,8 +158,6 @@ int main()
                     }
                 }
 
-                // CONTROLES Y MOVIMIENTO
-                // Regresar a IDLE cuando no se está moviendo
 if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A) &&
     !sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D) &&
     !player1.IsAttacking())
@@ -186,14 +172,13 @@ if (!sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left) &&
     player2.SetIdle();
 }
 
-                // ===================== JUGADOR 1 =====================
 
 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::A))
 {
     player1.Move(-5.f);
 
     if (player1.GetBounds().findIntersection(player2.GetBounds()).has_value())
-        player1.Move(5.f); // revertir
+        player1.Move(5.f); 
 }
 
 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
@@ -201,7 +186,7 @@ if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::D))
     player1.Move(5.f);
 
     if (player1.GetBounds().findIntersection(player2.GetBounds()).has_value())
-        player1.Move(-5.f); // revertir
+        player1.Move(-5.f); 
 }
 
 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
@@ -210,14 +195,12 @@ if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::W))
 }
 
 
-// ===================== JUGADOR 2 =====================
-
 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Left))
 {
     player2.Move(-5.f);
 
     if (player1.GetBounds().findIntersection(player2.GetBounds()).has_value())
-        player2.Move(5.f); // revertir
+        player2.Move(5.f); 
 }
 
 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
@@ -225,7 +208,7 @@ if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Right))
     player2.Move(5.f);
 
     if (player1.GetBounds().findIntersection(player2.GetBounds()).has_value())
-        player2.Move(-5.f); // revertir
+        player2.Move(-5.f); 
 }
 
 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
@@ -236,18 +219,10 @@ if (sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
                 if(sf::Keyboard::isKeyPressed(sf::Keyboard::Scancode::Up))
                     player2.Jump();
 
-                // DETECCION DE DAÑO Y ATAQUES
-                // DETECCION DE DAÑO Y ATAQUES (ACTUALIZADO A SFML 3)
-        // DETECCION DE DAÑO Y ATAQUES
-        //================== ATAQUES Y DAÑO ==================
-
 sf::FloatRect b1 = player1.GetBounds();
 sf::FloatRect b2 = player2.GetBounds();
 
-// Si las cajas se tocan hay posibilidad de pegar
 bool tocando = b1.findIntersection(b2).has_value();
-
-//------------------- JUGADOR 1 -----------------------
 
 static bool alreadyHit = false;
 
@@ -273,8 +248,6 @@ else
     alreadyHit = false;
     player1.StopAttack();
 }
-
-//------------------- JUGADOR 2 -----------------------
 
 static bool alreadyHit2 = false;
 
@@ -315,7 +288,6 @@ else
                     player2.FaceRight();
                 }
 
-                // MANEJO DEL RELOJ DE RONDA
                 int tiempo = tiempoCongelado;
                 tiempo = 60 - reloj.getElapsedTime().asSeconds();
 
@@ -324,12 +296,10 @@ else
 
                 tiempoCongelado = tiempo;
 
-                // --- DETECCION DE FIN DE RONDA ACTUAL ---
                 if(tiempo == 0 || player1.GetHealth() <= 0 || player2.GetHealth() <= 0)
                 { 
                     peleaTerminada = true;
 
-                    // Evaluar ganador de la ronda individual
                     if(player2.GetHealth() <= 0 || (tiempo == 0 && player1.GetHealth() > player2.GetHealth()))
                     {
                         rondasGanadasP1++;
@@ -345,7 +315,6 @@ else
                         textoFinal.setString("TIEMPO AGOTADO\n    [Presiona Enter para continuar]");
                     }
 
-                    // --- EVALUACIÓN GLOBAL (Solo se gatilla al finalizar la ronda 3) ---
                     if (rondaActual == 3)
                     {
                         fightMusic.stop();
@@ -360,29 +329,24 @@ else
                         }
                         else 
                         {
-                            // Si se completaron las 3 rondas y las victorias globales quedaron en 0 a 0
                             if(rondasGanadasP1 == 0 && rondasGanadasP2 == 0)
                             {
                                 textoFinal.setString("EMPATE\n[Presiona Enter para salir a la portada]");
                             }
                             else
                             {
-                                // Empate global por puntos tras acabarse el tiempo general
                                 textoFinal.setString("TIEMPO AGOTADO\n[Presiona Enter para salir a la portada]");
                             }
                         }
                     }
 
-                    // // Posicionar y centrar correctamente la etiqueta de texto final
         sf::FloatRect textBounds = textoFinal.getLocalBounds();
         
-        // 1. Centrar el ORIGEN correctamente
 textoFinal.setOrigin({
     textBounds.position.x + textBounds.size.x * 0.5f,
     textBounds.position.y + textBounds.size.y * 0.5f
 });
 
-// 2. Centrar en la pantalla (mejor usar el tamaño real del window)
 sf::Vector2u winSize = window.getSize();
 
 textoFinal.setPosition({
@@ -390,7 +354,6 @@ textoFinal.setPosition({
     winSize.y * 0.5f
 });
 
-                    // Bucle de bloqueo: Congela la escena para visualizar los textos y espera un "Enter"
                     bool esperarEnter = true;
                     while(window.isOpen() && esperarEnter)
                     {
@@ -411,7 +374,6 @@ textoFinal.setPosition({
                             }
                         }
 
-                        // Renderizado estático mientras se espera la confirmación del usuario
                         window.clear();
                         mapManager.draw(window);
 
@@ -431,7 +393,6 @@ textoFinal.setPosition({
                     }
                 }
 
-                // Renderizado dinámico estándar del juego en curso
                 if(!peleaTerminada)
                 {
                     textoVida1.setString("P1 Rondas: " + std::to_string(rondasGanadasP1) + " | HP: " + std::to_string(player1.GetHealth()));
@@ -455,7 +416,6 @@ textoFinal.setPosition({
             rondaActual++;
         }
 
-        // Reseteamos el flag de la música al salir de las 3 rondas para que vuelva a iniciar al ciclar a la portada
         musicStarted = false;
     }
 
