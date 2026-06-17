@@ -29,7 +29,7 @@ Daño Variable Calibrado: Cada impacto exitoso inflige un daño impredecible y b
 
 👥 Equipo
 
-    Líder: Juan Santiago de Leon Navarrete Escatel (@usuario-github)
+    Líder: Juan Santiago de Leon Navarrete Escatel (@Santiago18-wq)
     Integrante 2: Christian Morales Arciniega (@usuario-github)
     
 🛠️ Tecnologías
