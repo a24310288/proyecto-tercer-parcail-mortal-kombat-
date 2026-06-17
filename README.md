@@ -1,5 +1,5 @@
 # proyecto-tercer-parcial-mortal-kumbat-
-es un videojuego de peleas en 2D desarrollado en C++ y SFML que lleva el legendario torneo de NetherRealm a una escala cósmica. Las barreras del espacio-tiempo se han roto por completo, obligando a los guerreros más poderosos de distintas realidades a enfrentarse en un brutal combate a tres rondas donde solo el más fuerte evitará la extinción de su mundo.
+Es un videojuego de peleas en 2D desarrollado en C++ y SFML que lleva el legendario torneo de NetherRealm a una escala cósmica. Las barreras del espacio-tiempo se han roto por completo, obligando a los guerreros más poderosos de distintas realidades a enfrentarse en un brutal combate a tres rondas donde solo el más fuerte evitará la extinción de su mundo.
 🎯 Objetivo del Juego
 El objetivo principal de este proyecto es desarrollar un videojuego de combate en 2D inspirado en la saga Mortal Kombat, con el propósito de aplicar y fortalecer conocimientos adquiridos durante el curso en el área de programación, diseño de videojuegos y manejo de herramientas multimedia.Este proyecto también representa un proceso de aprendizaje guiado, en el cual el uso de la inteligencia artificial fue un apoyo importante para comprender, corregir y optimizar la lógica del código, permitiendo avanzar en la resolución de problemas técnicos y en la mejora de la estructura general del juego
 🎮 Controles
@@ -50,4 +50,4 @@ Asimismo, deseo resaltar que, aunque durante este periodo académico no se abarc
 
 De igual forma, considero importante mencionar que el tiempo fue un factor limitado, sin embargo, a pesar de ello, el profesor logró transmitir conocimientos clave que permitieron la realización de un proyecto completo en un periodo relativamente corto. Esto no solo fortaleció mis habilidades técnicas, sino también mi capacidad de resolución de problemas y aprendizaje autónomo.
 
-Por todo lo anterior, reitero mi agradecimiento por su dedicación, paciencia y disposición para enseñar, ya que su guía fue esencial para el desarrollo de este proyecto y para mi formación en el área de la programación y el desarrollo de videojuegos
+Por todo lo anterior, reitero mi agradecimiento por su dedicación, paciencia y disposición para enseñar, ya que su guía fue esencial para el desarrollo de este proyecto y para mi formación en el área de la programación y el desarrollo de videojuegos.
