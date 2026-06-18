@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <SFML/Graphics.hpp>
 
+// inicio del figther
+
 Fighter::Fighter(float x, float y, const std::string& characterName)
 {
     health = 100;
