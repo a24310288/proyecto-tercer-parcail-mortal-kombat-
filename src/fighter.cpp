@@ -1,226 +1,244 @@
 #include "fighter.hpp"
-
+#include <iostream>
+#include <cmath>
+#include <algorithm>
 #include <SFML/Graphics.hpp>
-#include <stdexcept>
-#include <vector>
 
-Fighter::Fighter(float x, float y, const std::string& imagePath)
+// inicio del figther
+
+Fighter::Fighter(float x, float y, const std::string& characterName)
 {
-    speed = 1.5f;
-
-    velocityY = 0.02f;
-    gravity = 0.15f;
-
-    isJumping = false;
-
-    groundY = y;
-
     health = 100;
+    currentAnimation = IDLE;
+    currentFrame = 0;
+    animationTimer = 0.f;
+    
+
+    std::string lowerName = characterName;
+    std::transform(lowerName.begin(), lowerName.end(), lowerName.begin(), ::tolower);
+    name = lowerName;
+    
+    facingRight = true;
     attacking = false;
-  
-    texture = std::make_unique<sf::Texture>();
+    velocityY = 0.f;
+    isGrounded = true;
 
-    if (!texture->loadFromFile(imagePath))
+    std::string basePath = "assets/sprites/" + name;
+
+    if (name == "chavo")
     {
-        throw std::runtime_error("No se pudo cargar la textura: " + imagePath);
+        LoadAnimationFolder(basePath, "chavo_basico_1", idleTextures);
+        LoadAnimationFolder(basePath, "chavo_caminar", walkTextures);
+        LoadAnimationFolder(basePath, "chavo_salto", jumpTextures);
+        LoadAnimationFolder(basePath, "chavo_dash", attackTextures); 
+    }
+    else 
+    {
+        name = "kratos"; 
+        LoadAnimationFolder(basePath, "kratos_ataque_1", idleTextures);
+        LoadAnimationFolder(basePath, "kratos_caminar", walkTextures);
+        LoadAnimationFolder(basePath, "kratos_salto", jumpTextures);
+        LoadAnimationFolder(basePath, "kratos_dash", attackTextures);
     }
 
-    sprite = std::make_unique<sf::Sprite>(*texture);
-
-currentAnimation = IDLE;
-
-currentFrame = 0;
-
-frameTime = 0.15f;
-
-idleFrames.push_back(sf::IntRect(
-    sf::Vector2i(0, 0),
-    sf::Vector2i(170, 220)
-));
-
-idleFrames.push_back(sf::IntRect(
-    sf::Vector2i(170, 0),
-    sf::Vector2i(170, 220)
-));
-
-sprite->setTextureRect(idleFrames[0]);
-
-sprite->setPosition(sf::Vector2f(x, y));
-
-sprite->setScale(sf::Vector2f(0.5f,0.5f));
-}
-
-Fighter::~Fighter() = default;
-
-void Fighter::MoveLeft()
-{
-    sprite->move(sf::Vector2f(-speed, 0));
-}
-
-void Fighter::MoveRight()
-{
-    sprite->move(sf::Vector2f(speed, 0));
-}
-
-void Fighter::Jump()
-{
-    if (!isJumping)
+    if (idleTextures.empty() || !idleTextures[0] || idleTextures[0]->getSize().x == 0)
     {
-        velocityY = -8.0f;
-        isJumping = true;
+        std::cout << "Advertencia: Usando textura de respaldo para evitar parpadeos descontrolados.\n";
+        auto fallbackTex = std::make_unique<sf::Texture>();
+        sf::Image img;
+        img.resize({128, 150}, sf::Color::Red);
+        fallbackTex->loadFromImage(img);
+        idleTextures.clear();
+        idleTextures.push_back(std::move(fallbackTex));
     }
+
+    sprite = std::make_unique<sf::Sprite>(*idleTextures[0]);
+    sprite->setTextureRect(sf::IntRect({0, 0}, {128, 150}));
+    sprite->setPosition({x, y});
+    sprite->setOrigin({64.f, 75.f}); 
+}
+void Fighter::LoadAnimationFolder(
+    const std::string& basePath,
+    const std::string& animName,
+    std::vector<std::unique_ptr<sf::Texture>>& container)
+{
+    auto tex = std::make_unique<sf::Texture>();
+
+    std::string ruta = basePath + "/" + animName + ".png";
+
+    if (!tex->loadFromFile(ruta))
+    {
+        std::cout << "No se pudo cargar: " << ruta << std::endl;
+        return;
+    }
+
+    container.push_back(std::move(tex));
 }
 
 void Fighter::Update()
 {
-    velocityY += gravity;
-
-    sprite->move(sf::Vector2f(0, velocityY));
-
-    if (sprite->getPosition().y >= groundY)
+if (sprite)
+{
+    if (currentAnimation != ATTACK)
     {
-        sprite->setPosition(
-            sf::Vector2f(
-                sprite->getPosition().x,
-                groundY
-            )
-        );
+        if (!isGrounded)
+        {
+            velocityY += 0.6f;
+            sprite->move({0.f, velocityY});
 
-        velocityY = 0;
-        isJumping = false;
+            if (sprite->getPosition().y >= 500.f)
+            {
+                sprite->setPosition({sprite->getPosition().x, 500.f});
+                velocityY = 0.f;
+                isGrounded = true;
+
+                if (currentAnimation == JUMP)
+                    currentAnimation = IDLE;
+            }
+        }
     }
-
-    UpdateAnimation();
 }
 
-void Fighter::UpdateAnimation()
-{
-    if (animationClock.getElapsedTime().asSeconds() < frameTime)
+    sf::Texture* currentTex = nullptr;
+    int totalFrames = 1;
+
+    if (currentAnimation == IDLE && !idleTextures.empty())
+    {
+        currentTex = idleTextures[0].get();
+        totalFrames = (name == "chavo") ? 1 : 8;
+    }
+    else if (currentAnimation == WALK && !walkTextures.empty())
+    {
+        currentTex = walkTextures[0].get();
+        totalFrames = (name == "chavo") ? 13 : 8;
+    }
+    else if (currentAnimation == JUMP && !jumpTextures.empty())
+    {
+        currentTex = jumpTextures[0].get();
+        totalFrames = 10;
+    }
+    else if (currentAnimation == ATTACK && !attackTextures.empty())
+    {
+        currentTex = attackTextures[0].get();
+        totalFrames = (name == "chavo") ? 4 : 8;
+    }
+
+    if (!currentTex)
         return;
 
-    animationClock.restart();
+    sprite->setTexture(*currentTex);
 
-    switch (currentAnimation)
+    int frameWidth = currentTex->getSize().x / totalFrames;
+    int frameHeight = currentTex->getSize().y;
+
+    animationTimer += 0.016f;
+if (animationTimer >= 0.1f)
     {
-        case IDLE:
+        animationTimer = 0.f;
+
+        currentFrame++;
+
+        if (currentFrame >= totalFrames)
         {
-            currentFrame++;
+            currentFrame = 0;
 
-            if (currentFrame >= idleFrames.size())
-                currentFrame = 0;
-
-            sprite->setTextureRect(idleFrames[currentFrame]);
-            break;
+            if (currentAnimation == ATTACK)
+            {
+                currentAnimation = IDLE;
+                attacking = false;
+            }
         }
-
-        case WALK:
-            break;
-
-        case ATTACK:
-            break;
     }
+
+    sprite->setTextureRect(
+        sf::IntRect(
+            {currentFrame * frameWidth, 0},
+            {frameWidth, frameHeight}
+        )
+    );
+   
+
 }
 
-const sf::Sprite& Fighter::GetSprite() const
-{
-    return *sprite;
-}
 
-void Fighter::SetPosition(float x, float y)
+sf::FloatRect Fighter::GetBounds() const
 {
-    sprite->setPosition(sf::Vector2f(x, y));
+    if (!sprite)
+        return sf::FloatRect();
+
+    return sprite->getGlobalBounds();
 }
 
 sf::Vector2f Fighter::GetPosition() const
 {
+    if (!sprite) return {0.f, 0.f};
     return sprite->getPosition();
 }
 
-sf::FloatRect Fighter::GetBounds() const
-{
-    sf::FloatRect r = sprite->getGlobalBounds();
-
-    r.position.x += 30.f;
-    r.size.x -= 60.f;
-
-    r.position.y += 10.f;
-    r.size.y -= 10.f;
-
-    return r;
-}
-
-void Fighter::FaceRight()
-{
-    sprite->setOrigin(sf::Vector2f(0.f, 0.f));
-    sprite->setScale(sf::Vector2f(0.5f, 0.5f));
-}
-
-void Fighter::FaceLeft()
-{
-    sf::IntRect rect = sprite->getTextureRect();
-
-    sprite->setOrigin(
-        sf::Vector2f(
-            static_cast<float>(rect.size.x),
-            0.f
-        )
-    );
-
-    sprite->setScale(sf::Vector2f(-0.5f, 0.5f));
-}
-
-
-int Fighter::GetHealth() const
-{
-    return health;
-}
+const sf::Sprite& Fighter::GetSprite() const { return *sprite; }
+int Fighter::GetHealth() const { return health; }
 
 void Fighter::TakeDamage(int damage)
 {
     health -= damage;
-
-    if (health < 0)
-        health = 0;
+    if (health < 0) health = 0;
 }
 
-bool Fighter::IsAlive() const
+bool Fighter::IsAlive() const { return health > 0; }
+
+void Fighter::Jump()
 {
-    return health > 0;
+    if (isGrounded)
+    {
+        velocityY = -13.5f;
+        currentAnimation = JUMP;
+        isGrounded = false;
+    }
+}
+
+void Fighter::FaceRight()
+{
+    facingRight = true;
+    if (sprite && sprite->getScale().x < 0) sprite->setScale({std::abs(sprite->getScale().x), sprite->getScale().y});
+}
+
+void Fighter::FaceLeft()
+{
+    facingRight = false;
+    if (sprite && sprite->getScale().x > 0) sprite->setScale({-std::abs(sprite->getScale().x), sprite->getScale().y});
 }
 
 void Fighter::StartAttack()
 {
-    attacking = true;
+    
+    if (currentAnimation != ATTACK)
+    {
+        currentAnimation = ATTACK;
+        currentFrame = 0;
+        animationTimer = 0.f;
+        attacking = true;
+    }
 }
 
-
-void Fighter::SetIdle()
-{
-    currentAnimation = IDLE;
-    currentFrame = 0;
-}
-
-void Fighter::SetWalk()
-{
-    currentAnimation = WALK;
-    currentFrame = 0;
-}
-
-void Fighter::SetAttack()
-{
-    currentAnimation = ATTACK;
-    currentFrame = 0;
-}
-void Fighter::StopAttack()
-{
+void Fighter::StopAttack() {
     attacking = false;
+    if (currentAnimation == ATTACK) currentAnimation = IDLE;
 }
 
-bool Fighter::IsAttacking() const
+bool Fighter::IsAttacking() const { return currentAnimation == ATTACK; }
+void Fighter::SetIdle() { currentAnimation = IDLE; }
+void Fighter::SetWalk() { currentAnimation = WALK; }
+void Fighter::SetAttack() { currentAnimation = ATTACK; }
+
+Fighter::~Fighter() {}
+void Fighter::Move(float dx)
 {
-    return attacking;
+    if (sprite)
+        sprite->move({dx, 0.f});
 }
 
-
-
-
+void Fighter::SetPosition(sf::Vector2f pos)
+{
+    if (sprite)
+        sprite->setPosition(pos);
+}
